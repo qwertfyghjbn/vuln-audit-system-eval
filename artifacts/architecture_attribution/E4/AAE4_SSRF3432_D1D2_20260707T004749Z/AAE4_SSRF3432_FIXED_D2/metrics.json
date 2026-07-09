@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 27,
+  "tool_calls_count": 20,
+  "tokens_used": 295330,
+  "wall_clock_seconds": 331,
+  "findings_count": 9,
+  "top_3_findings": [
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:309-319 - isInUrlAllowList()方法的白名单匹配使用startsWith()，可",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:321-330 - cleanPath()方法进行URL规范化（移除默认端口、转小写），但未处理URL编",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "path_traversal",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java:166-169 - loadStringData()方法将用户可控的path参数直接传入SU",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "path_traversal",
+      "confidence": 0.6
+    }
+  ]
+}

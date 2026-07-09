@@ -1,0 +1,19 @@
+{
+  "variant_id": "AAE1_SSRF001_A_ORIG",
+  "status": "completed",
+  "candidate_injected": false,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "llm_sources": 0,
+  "llm_sinks": 0,
+  "llm_taint_propagators": 0,
+  "num_vulnerable_paths": 0,
+  "target_alignment": false,
+  "cost_tokens": null,
+  "wall_time_seconds": null,
+  "tool_call_count": null,
+  "context_volume": null,
+  "parse_error_count": null,
+  "primary_observation": "Baseline no-signal state reproduced: source=0, sink=0, results=0.",
+  "provenance_source": "artifacts/iris_smoke/OFFICIALSMOKE01/SSRF-JA-REPO-001"
+}

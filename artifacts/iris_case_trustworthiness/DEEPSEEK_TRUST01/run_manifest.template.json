@@ -1,0 +1,13 @@
+{
+  "run_id": "DEEPSEEK_TRUST01",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "<recorded_deepseek_alias>",
+  "run_purpose": "official_case_trustworthiness_learning",
+  "case_groups": [
+    "official",
+    "self"
+  ],
+  "notes": "Historical scaffold snapshot copied from PLAN_DEEPSEEK_TRUST01 on 2026-07-04 for traceability."
+}

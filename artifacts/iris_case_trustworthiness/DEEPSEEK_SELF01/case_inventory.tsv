@@ -1,0 +1,4 @@
+case_group	role_or_group	case_key	query_id	required_build_contract	archive_dir
+self	self-pt-vuln	PT-JA-REPO-CVE-2024-53677-VULN	cwe-022wLLM	local_compile_recipe	self/PT-JA-REPO-CVE-2024-53677-VULN
+self	self-ssrf-vuln	SSRF-JA-REPO-CVE-2023-3432-VULN	cwe-918wLLM	local_compile_recipe	self/SSRF-JA-REPO-CVE-2023-3432-VULN
+self	self-ssrf-fixed	SSRF-JA-REPO-CVE-2023-3432-FIXED	cwe-918wLLM	local_compile_recipe	self/SSRF-JA-REPO-CVE-2023-3432-FIXED

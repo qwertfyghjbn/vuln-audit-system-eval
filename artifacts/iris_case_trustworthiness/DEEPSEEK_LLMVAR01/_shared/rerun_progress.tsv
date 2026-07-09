@@ -1,0 +1,3 @@
+project_slug	r1_status	r2_status	r3_status	expand_to_r4_r5	final_batch_note
+jmrozanec__cron-utils_CVE-2021-41269_9.1.5	completed	completed	completed	no	source-zero held across all three reruns with zero final results
+rhuss__jolokia_CVE-2018-1000129_1.4.0	completed	completed	completed	no	sink-zero did not hold across reruns; outcomes split into one official hit and one non-target hit

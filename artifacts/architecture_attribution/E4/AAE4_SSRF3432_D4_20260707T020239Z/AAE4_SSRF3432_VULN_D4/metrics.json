@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 30,
+  "tool_calls_count": 28,
+  "tokens_used": 479619,
+  "wall_clock_seconds": 346,
+  "findings_count": 10,
+  "top_3_findings": [
+    {
+      "title": "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java:163-170 - 用户输入的URL直接转换为SURL并发起网络请求，无输入验证",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:478-489 - HTTP重定向SSRF：跟随302/301重定向时URL未重新经过isUrlOk()",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:219-247 - INTERNET模式isUrlOk()仅检查端口80/443，但重定向可指向任意端口",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    }
+  ]
+}

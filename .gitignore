@@ -12,10 +12,15 @@ artifacts/deepaudit_smoke/
 artifacts/deepaudit_diagnosis/
 artifacts/deepaudit_timing/
 artifacts/deepaudit_repo_experiments/
+artifacts/deepaudit_boundary_expansion/20260702T013151Z/
+artifacts/deepaudit_boundary_expansion/20260702T081654Z/
+artifacts/deepaudit_boundary_expansion/registry/
 artifacts/iris_preflight/
 artifacts/iris_candidate_validation/
+artifacts/iris_case_trustworthiness/README.md
 artifacts/iris_smoke/TEST*/
 artifacts/iris_smoke/FIRSTREAL/
+artifacts/iris_smoke/SSRFCALLER001/
 artifacts/iris_smoke/TESTRUNREAL/
 
 # Runtime auth / environment material

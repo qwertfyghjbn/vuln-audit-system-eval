@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 26,
+  "tool_calls_count": 20,
+  "tokens_used": 301975,
+  "wall_clock_seconds": 329,
+  "findings_count": 8,
+  "top_3_findings": [
+    {
+      "title": "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java:163-192 - loadStringData()直接使用用户输入的URL发起请求，是SS",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.6
+    },
+    {
+      "title": "SSRF攻击入口 - LoadJson允许用户通过Tim脚本函数指定任意URL",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.92
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:294-304 - forbiddenURL() 正则表达式SSRF绕过风险：正则仅检查纯IP地址模式，",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.6
+    }
+  ]
+}

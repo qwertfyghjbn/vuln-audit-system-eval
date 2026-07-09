@@ -1,0 +1,4 @@
+case_key	query_id	run_status	observed_stage_boundary	system_verdict	top_finding_valid	target_match	failure_reason	notes
+PT-JA-REPO-CVE-2024-53677-VULN	cwe-022wLLM	completed	stage9_completed	no_signal	none	no	missing_sink_and_no_path	r1=DEEPSEEK_SELF01__pt53677_r1; candidates=25; sources=6; sinks=0; tp=5; posthoc_paths=0
+SSRF-JA-REPO-CVE-2023-3432-VULN	cwe-918wLLM	completed	stage9_completed	no_signal	none	no	no_path_after_partial_source_sink_labelling	r1=DEEPSEEK_SELF01__ssrf3432_vuln_r1; candidates=77; sources=1; sinks=6; tp=15; stage3_json_parse_errors=1; posthoc_paths=0
+SSRF-JA-REPO-CVE-2023-3432-FIXED	cwe-918wLLM	completed	stage9_completed	target_match	none	yes	none	r1=DEEPSEEK_SELF01__ssrf3432_fixed_r1; candidates=78; sources=0; sinks=6; tp=11; stage3_json_parse_errors=2; posthoc_paths=0

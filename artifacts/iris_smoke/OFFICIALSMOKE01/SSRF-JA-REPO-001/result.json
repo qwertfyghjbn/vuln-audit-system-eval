@@ -1,0 +1,11 @@
+{
+  "case_id": "SSRF-JA-REPO-001",
+  "status": "completed",
+  "system_name": "iris",
+  "project_slug": "bench__ssrf-ja-repo-001_SYNTHETIC_smoke",
+  "query_id": "cwe-918wLLM",
+  "vuln_type": "ssrf",
+  "prepared_input_dir": "/tmp/iris_smoke_inputs/OFFICIALSMOKE01/SSRF-JA-REPO-001/input",
+  "planned_command": "/home/lqs/llm_audit_system_learning/artifacts/iris_smoke/OFFICIALSMOKE01/SSRF-JA-REPO-001/planned_command.sh",
+  "notes": "execution succeeded"
+}

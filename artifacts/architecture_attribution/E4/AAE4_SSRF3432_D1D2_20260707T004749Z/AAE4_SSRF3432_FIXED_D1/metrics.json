@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 37,
+  "tool_calls_count": 27,
+  "tokens_used": 367407,
+  "wall_clock_seconds": 531,
+  "findings_count": 6,
+  "top_3_findings": [
+    {
+      "title": "HTTP 302重定向SSRF绕过 - 重定向目标未经过安全验证",
+      "severity": "critical",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.95
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:309-319 - isInUrlAllowList白名单检查依赖环境变量ALLOWLIST_URL，若",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java:167-169 - 通过SURL.create创建URL后调用getBytes()，Http",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.6
+    }
+  ]
+}

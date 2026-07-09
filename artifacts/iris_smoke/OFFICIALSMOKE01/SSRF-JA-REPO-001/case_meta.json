@@ -1,0 +1,11 @@
+{
+  "case_id": "SSRF-JA-REPO-001",
+  "project_slug": "bench__ssrf-ja-repo-001_SYNTHETIC_smoke",
+  "case_dir": "datasets/synthetic/SSRF-JA-REPO-001",
+  "vuln_type": "ssrf",
+  "query_id": "cwe-918wLLM",
+  "source_root": "src/main/java",
+  "compile_recipe": "build_support/java_compile_recipe.json",
+  "prepared_input_dir": "/tmp/iris_smoke_inputs/OFFICIALSMOKE01/SSRF-JA-REPO-001/input",
+  "run_class": "smoke experiment"
+}

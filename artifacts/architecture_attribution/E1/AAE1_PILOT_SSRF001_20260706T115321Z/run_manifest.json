@@ -1,0 +1,22 @@
+{
+  "run_id": "AAE1_PILOT_SSRF001_20260706T115321Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E1",
+  "experiment_name": "Static-gate Oracle",
+  "family_id": "SSRF-JA-REPO-001",
+  "query_id": "cwe-918wLLM",
+  "system_name": "iris-style-static-gated-workflow",
+  "model_source": ".env_deepseek",
+  "execution_mode": "evidence_replay_with_new_archival_package",
+  "notes": [
+    "A reuses authoritative OFFICIALSMOKE01 baseline evidence.",
+    "B reuses authoritative candidate-injection evidence from CANDDOMF3_SSRF001_INJECT1.",
+    "C reuses authoritative minimal-oracle evidence from CANDDOMF3_SSRF001_ORACLE1.",
+    "D is skipped because C already recovered a target-aligned result under the E1 stop rule."
+  ],
+  "source_evidence": {
+    "A_original": "artifacts/iris_smoke/OFFICIALSMOKE01/SSRF-JA-REPO-001",
+    "B_oracle_candidate": "artifacts/iris_candidate_selection_dominance/FIRST3/SSRF-JA-REPO-001/CANDDOMF3_SSRF001_INJECT1",
+    "C_oracle_summary_path": "artifacts/iris_candidate_selection_dominance/FIRST3/SSRF-JA-REPO-001/CANDDOMF3_SSRF001_ORACLE1"
+  }
+}

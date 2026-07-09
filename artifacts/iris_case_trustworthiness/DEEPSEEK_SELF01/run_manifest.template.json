@@ -1,0 +1,14 @@
+{
+  "run_id": "<fill_real_run_id>",
+  "source_case_freeze_doc": "reports/systems/iris/summaries/iris_self_comparison_case_list.md",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "<recorded_deepseek_alias>",
+  "run_purpose": "self_case_trustworthiness_learning",
+  "run_status": "initialized",
+  "case_groups": [
+    "self"
+  ],
+  "notes": "Copy this template into a real execution directory only when the self comparison case list and runtime-compatibility boundary are already frozen."
+}

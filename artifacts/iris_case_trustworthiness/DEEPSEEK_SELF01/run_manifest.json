@@ -1,0 +1,20 @@
+{
+  "run_id": "DEEPSEEK_SELF01",
+  "source_case_freeze_doc": "reports/systems/iris/summaries/iris_self_comparison_case_list.md",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "deepseek-v4-pro",
+  "run_purpose": "self_case_trustworthiness_learning",
+  "run_status": "first_round_completed",
+  "executed_case_count": 3,
+  "case_groups": [
+    "self"
+  ],
+  "execution_runs": {
+    "PT-JA-REPO-CVE-2024-53677-VULN": "DEEPSEEK_SELF01__pt53677_r1",
+    "SSRF-JA-REPO-CVE-2023-3432-VULN": "DEEPSEEK_SELF01__ssrf3432_vuln_r1",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED": "DEEPSEEK_SELF01__ssrf3432_fixed_r1"
+  },
+  "notes": "Initialized on 2026-07-05 for the first self-only DeepSeek + IRIS comparison batch. First-round execution completed on 2026-07-05 under the same runtime-compatibility boundary and provider/model settings used by the official comparison line."
+}

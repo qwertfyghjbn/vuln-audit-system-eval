@@ -1,0 +1,40 @@
+{
+  "mode_id": "D1",
+  "status": "completed",
+  "stage_boundary": "deepaudit_repo_run_completed",
+  "shape": "D1",
+  "uses_cve_context": false,
+  "uses_fix_patch": false,
+  "target_files_set": false,
+  "target_alignment": true,
+  "contains_CronValidator_value_source": true,
+  "contains_getMessage_bridge": true,
+  "contains_template_sink": true,
+  "off_target_finding": false,
+  "total_findings": 2,
+  "verified_findings": 0,
+  "severity_distribution": {
+    "critical": 1,
+    "high": 1
+  },
+  "vulnerability_types": {
+    "other": 2
+  },
+  "cost_tokens": 516100,
+  "wall_time_seconds": 400,
+  "tool_call_count": 30,
+  "context_volume": {
+    "total_files": 216,
+    "indexed_files": 0,
+    "analyzed_files": 0
+  },
+  "primary_observation": "Even under D1 with no CVE hint, no diff, and no target_files, DeepAudit recovered the target cron-expression -> exception-message -> buildConstraintViolationWithTemplate chain and produced a critical target-adjacent finding plus one upstream supporting finding.",
+  "finding_shape": "direct_sink_finding_plus_upstream_message_construction_support",
+  "failure_classification": "completed_with_findings",
+  "execution_notes": [
+    "Backend connectivity succeeded at http://127.0.0.1:8000/health before the run started.",
+    "The real repo runner wrote artifacts under AAE4_CRONUTILS_20260708T015906Z/AAE4_CRONUTILS_D1.",
+    "DeepAudit labelled both findings as vulnerability_type=other, so target alignment must be judged from the semantic content rather than the taxonomy field."
+  ],
+  "evidence_root": "artifacts/architecture_attribution/E4/AAE4_CRONUTILS_20260708T015906Z/AAE4_CRONUTILS_D1"
+}

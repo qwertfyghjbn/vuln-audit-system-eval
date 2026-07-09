@@ -1,0 +1,9 @@
+case_group	role_or_group	case_key	query_id	official_result_join	required_build_contract	archive_dir
+official	anchor	perwendel__spark_CVE-2018-9159_2.7.1	cwe-022wLLM	exact_result_row_join	build_info+default_maven	official/perwendel__spark_CVE-2018-9159_2.7.1
+official	contrast	perwendel__spark_CVE-2016-9177_2.5.1	cwe-022wLLM	exact_result_row_join	build_info+default_maven	official/perwendel__spark_CVE-2016-9177_2.5.1
+official	differential-1	vert-x3__vertx-web_CVE-2018-12542_3.5.3.CR1	cwe-022wLLM	exact_result_row_join	build_info+default_maven	official/vert-x3__vertx-web_CVE-2018-12542_3.5.3.CR1
+official	differential-2	jmrozanec__cron-utils_CVE-2021-41269_9.1.5	cwe-094wLLM	exact_result_row_join	build_info+default_maven	official/jmrozanec__cron-utils_CVE-2021-41269_9.1.5
+official	control	rhuss__jolokia_CVE-2018-1000129_1.4.0	cwe-079wLLM	exact_result_row_join	build_info+default_maven	official/rhuss__jolokia_CVE-2018-1000129_1.4.0
+self	self-pt-vuln	PT-JA-REPO-CVE-2024-53677-VULN	cwe-022wLLM	n/a	local_compile_recipe	self/PT-JA-REPO-CVE-2024-53677-VULN
+self	self-ssrf-vuln	SSRF-JA-REPO-CVE-2023-3432-VULN	cwe-918wLLM	n/a	local_compile_recipe	self/SSRF-JA-REPO-CVE-2023-3432-VULN
+self	self-ssrf-fixed	SSRF-JA-REPO-CVE-2023-3432-FIXED	cwe-918wLLM	n/a	local_compile_recipe	self/SSRF-JA-REPO-CVE-2023-3432-FIXED

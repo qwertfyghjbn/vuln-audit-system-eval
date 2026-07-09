@@ -1,0 +1,16 @@
+{
+  "experiment_id": "AAE4_SSRF3432_FIXED_D1",
+  "case_id": "SSRF-JA-REPO-CVE-2023-3432-FIXED",
+  "case_dir": "datasets/real_world/SSRF-JA-REPO-CVE-2023-3432-FIXED",
+  "input_path": "repo",
+  "language": "java",
+  "target_vulnerability": "ssrf",
+  "shape": "D1",
+  "layer": "real-world",
+  "run_class": "architecture-attribution reference",
+  "description": "SSRF-3432 fixed curated repo；无 target_files；无 CVE hint；DeepAudit 低信息参照",
+  "constraint_summary": "curated subset repo；no target_files；no CVE hint；no diff",
+  "max_iterations": 18,
+  "timeout_seconds": 1800,
+  "poll_limit_seconds": 1200
+}

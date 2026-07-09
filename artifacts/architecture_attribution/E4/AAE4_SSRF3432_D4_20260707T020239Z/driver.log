@@ -1,0 +1,13 @@
+[2026-07-07T02:02:39Z] START AAE4_SSRF3432_VULN_D4
+[2026-07-07T02:02:39Z] Registering or confirming preflight user
+[2026-07-07T02:02:39Z] Logging in preflight user
+[2026-07-07T02:02:40Z] Running repo experiment AAE4_SSRF3432_VULN_D4
+[2026-07-07T02:08:28Z] Repo experiment artifacts written to /home/lqs/llm_audit_system_learning/artifacts/architecture_attribution/E4/AAE4_SSRF3432_D4_20260707T020239Z
+[2026-07-07T02:08:28Z] DONE AAE4_SSRF3432_VULN_D4
+[2026-07-07T02:08:28Z] START AAE4_SSRF3432_FIXED_D4
+[2026-07-07T02:08:28Z] Registering or confirming preflight user
+[2026-07-07T02:08:28Z] Logging in preflight user
+[2026-07-07T02:08:29Z] Running repo experiment AAE4_SSRF3432_FIXED_D4
+[2026-07-07T02:16:30Z] Repo experiment artifacts written to /home/lqs/llm_audit_system_learning/artifacts/architecture_attribution/E4/AAE4_SSRF3432_D4_20260707T020239Z
+[2026-07-07T02:16:30Z] DONE AAE4_SSRF3432_FIXED_D4
+[2026-07-07T02:16:30Z] ALL_DONE AAE4_SSRF3432_D4_20260707T020239Z

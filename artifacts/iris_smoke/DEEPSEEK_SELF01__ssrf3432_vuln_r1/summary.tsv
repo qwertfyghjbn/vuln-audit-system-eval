@@ -1,0 +1,2 @@
+case_id	vuln_type	query_id	prepared_input_dir	status	notes
+SSRF-JA-REPO-CVE-2023-3432-VULN	ssrf	cwe-918wLLM	/tmp/iris_smoke_inputs/DEEPSEEK_SELF01__ssrf3432_vuln_r1/SSRF-JA-REPO-CVE-2023-3432-VULN/input	completed	execution succeeded

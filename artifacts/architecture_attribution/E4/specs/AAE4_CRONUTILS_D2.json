@@ -1,0 +1,16 @@
+{
+  "experiment_id": "AAE4_CRONUTILS_D2",
+  "case_id": "jmrozanec__cron-utils_CVE-2021-41269_9.1.5",
+  "case_dir": "artifacts/architecture_attribution/E4/staging/jmrozanec__cron-utils_CVE-2021-41269_9.1.5_D2",
+  "input_path": "repo_bundle",
+  "language": "java",
+  "target_vulnerability": "template-injection",
+  "shape": "D2",
+  "layer": "real-world",
+  "run_class": "architecture-attribution reference",
+  "description": "cron-utils curated repo bundle；仅增加 CVE_CONTEXT.md；无 diff；无 target_files；DeepAudit 低信息加 hint 参照",
+  "constraint_summary": "curated repo bundle；root-level CVE hint only；no diff；no target_files",
+  "max_iterations": 18,
+  "timeout_seconds": 1800,
+  "poll_limit_seconds": 1200
+}

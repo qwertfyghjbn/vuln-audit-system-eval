@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 31,
+  "tool_calls_count": 23,
+  "tokens_used": 400247,
+  "wall_clock_seconds": 477,
+  "findings_count": 11,
+  "top_3_findings": [
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:237-244 - INTERNET安全配置文件：仅限制端口80/443，且仅在INTERNET模式下执",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:300-301 - IP地址检测正则`^https?://[-#.0-9:\\[\\]+]+/.*`过于宽松",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:321-330 - cleanPath()方法：只移除默认端口80/443，攻击者可使用非标准端口访问内",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "path_traversal",
+      "confidence": 0.6
+    }
+  ]
+}

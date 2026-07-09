@@ -1,0 +1,36 @@
+{
+  "run_id": "AAE1_PAIR_SSRF3432_20260706T125947Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E1",
+  "experiment_name": "Static-gate Oracle",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-pair",
+  "case_ids": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "query_id": "cwe-918wLLM",
+  "system_name": "iris-style-static-gated-workflow",
+  "model_source": ".env_deepseek",
+  "execution_mode": "mixed_evidence_replay_with_in_package_oracle_replay",
+  "notes": [
+    "A reuses authoritative DEEPSEEK_SELF01 self-baseline evidence so that VULN retains the System.getenv source misalignment and FIXED retains the source-empty baseline state.",
+    "B reuses authoritative candidate-injection evidence from CANDSEL001.",
+    "C replays CodeQL inside this package on top of the CANDSEL001 query workspace after replacing the wrong source with a manual function-parameter oracle at LoadJson.loadStringData(String)#path.",
+    "D replays CodeQL inside this package on top of the SSRFCALLER001 caller-side slice workspace while retaining the same manual function-parameter oracle.",
+    "This archival package is stored under artifacts/architecture_attribution and does not write new results back into the IRIS evaluation lines."
+  ],
+  "source_evidence": {
+    "SSRF-JA-REPO-CVE-2023-3432-VULN": {
+      "A_original": "artifacts/iris_case_trustworthiness/DEEPSEEK_SELF01/self/SSRF-JA-REPO-CVE-2023-3432-VULN",
+      "B_oracle_candidate": "artifacts/iris_smoke/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-VULN",
+      "C_oracle_summary_path": "manual_replay_on_top_of_artifacts/iris_smoke/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-VULN",
+      "D_oracle_slice": "manual_replay_on_top_of_artifacts/iris_smoke/SSRFCALLER001/SSRF-JA-REPO-CVE-2023-3432-VULN"
+    },
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED": {
+      "A_original": "artifacts/iris_case_trustworthiness/DEEPSEEK_SELF01/self/SSRF-JA-REPO-CVE-2023-3432-FIXED",
+      "B_oracle_candidate": "artifacts/iris_smoke/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-FIXED",
+      "C_oracle_summary_path": "manual_replay_on_top_of_artifacts/iris_smoke/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-FIXED",
+      "D_oracle_slice": "manual_replay_on_top_of_artifacts/iris_smoke/SSRFCALLER001/SSRF-JA-REPO-CVE-2023-3432-FIXED"
+    }
+  }
+}

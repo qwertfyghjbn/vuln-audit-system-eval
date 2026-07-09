@@ -1,0 +1,11 @@
+[
+  {
+    "package": "com.example.demo.util",
+    "class": "FileUtil",
+    "method": "readFile",
+    "signature": "byte[] readFile(String filename)",
+    "tainted_input": [
+      "filename"
+    ]
+  }
+]

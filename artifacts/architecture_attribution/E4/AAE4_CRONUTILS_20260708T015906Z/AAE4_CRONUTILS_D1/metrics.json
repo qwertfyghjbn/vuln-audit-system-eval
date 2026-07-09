@@ -1,0 +1,25 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 33,
+  "tool_calls_count": 30,
+  "tokens_used": 516100,
+  "wall_clock_seconds": 400,
+  "findings_count": 2,
+  "top_3_findings": [
+    {
+      "title": "EL Injection via buildConstraintViolationWithTemplate with user-controlled error message",
+      "severity": "critical",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.95
+    },
+    {
+      "title": "Multiple exception messages embed user input before reaching EL sink",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.85
+    }
+  ]
+}

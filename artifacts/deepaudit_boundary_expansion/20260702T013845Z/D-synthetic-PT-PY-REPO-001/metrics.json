@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 23,
+  "tool_calls_count": 18,
+  "tokens_used": 177167,
+  "wall_clock_seconds": 217,
+  "findings_count": 6,
+  "top_3_findings": [
+    {
+      "title": "routes/file_routes.py:21 - request.args.get('file') 直接获取用户输入，无任何验证或过滤",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "路径遍历漏洞 - 任意文件读取",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "path_traversal",
+      "confidence": 0.95
+    },
+    {
+      "title": "路径遍历漏洞 - read_file 函数",
+      "severity": "medium",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.5
+    }
+  ]
+}

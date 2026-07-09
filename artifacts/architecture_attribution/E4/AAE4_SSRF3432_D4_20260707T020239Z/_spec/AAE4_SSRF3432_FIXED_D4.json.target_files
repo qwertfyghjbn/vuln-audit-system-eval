@@ -1,0 +1,4 @@
+src/net/sourceforge/plantuml/security/SURL.java
+src/net/sourceforge/plantuml/security/SecurityProfile.java
+src/net/sourceforge/plantuml/security/SecurityUtils.java
+src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java

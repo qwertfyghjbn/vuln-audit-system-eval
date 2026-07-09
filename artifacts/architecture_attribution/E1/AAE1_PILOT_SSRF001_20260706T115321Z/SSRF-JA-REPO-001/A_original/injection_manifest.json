@@ -1,0 +1,10 @@
+{
+  "variant_id": "AAE1_SSRF001_A_ORIG",
+  "candidate_injected": false,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "oracle_sources": [],
+  "oracle_sinks": [],
+  "oracle_summaries": [],
+  "notes": "Authoritative baseline replay from OFFICIALSMOKE01."
+}

@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 31,
+  "tool_calls_count": 27,
+  "tokens_used": 407604,
+  "wall_clock_seconds": 317,
+  "findings_count": 8,
+  "top_3_findings": [
+    {
+      "title": "SSRF via HTTP Redirect Following - Bypasses All Security Checks (CWE-918)",
+      "severity": "critical",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.95
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java:166-170 - 用户提供的URL直接传入SURL.create()并发送HTTP请求，无",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "Default LEGACY Security Profile Disables All SSRF Protection (CWE-1188)",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 0.9
+    }
+  ]
+}

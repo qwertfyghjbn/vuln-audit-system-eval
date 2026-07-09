@@ -1,0 +1,20 @@
+= Vert.x-Web
+
+image:https://vertx.ci.cloudbees.com/buildStatus/icon?job=vert.x3-web["Build Status",link="https://vertx.ci.cloudbees.com/view/vert.x-3/job/vert.x3-web/"]
+image:https://img.shields.io/maven-central/v/io.vertx/vertx-web.svg["Maven Central"]
+image:https://bestpractices.coreinfrastructure.org/projects/540/badge["CII Best Practices",link="https://bestpractices.coreinfrastructure.org/projects/540"]
+
+Vert.x-Web is a set of building blocks for building web applications with Vert.x. Think of it as a Swiss Army Knife for building
+modern, scalable, web apps.
+
+Please see the in source asciidoc documentation or the main documentation on the web-site for a full description
+of Vert.x-Web:
+
+* Web-site docs
+* link:vertx-web/src/main/asciidoc/java/index.adoc[Java in-source docs]
+* link:vertx-web/src/main/asciidoc/js/index.adoc[JavaScript in-source docs]
+* link:vertx-web/src/main/asciidoc/groovy/index.adoc[Groovy in-source docs]
+
+== Template engines
+
+Template engine implementations are in the template engine sub-project.

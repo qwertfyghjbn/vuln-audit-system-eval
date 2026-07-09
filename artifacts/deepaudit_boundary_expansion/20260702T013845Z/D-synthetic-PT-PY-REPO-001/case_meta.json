@@ -1,0 +1,17 @@
+{
+  "experiment_id": "D-synthetic-PT-PY-REPO-001",
+  "case_id": "PT-PY-REPO-001",
+  "shape": "D",
+  "layer": "synthetic",
+  "run_class": "baseline-like",
+  "kind": "agent_task",
+  "target_vulnerability": "path_traversal",
+  "source_case_dir": "datasets/synthetic/PT-PY-REPO-001",
+  "clean_input_path": "src",
+  "shared_zip": "/tmp/deepaudit/boundary_inputs/D-synthetic-PT-PY-REPO-001.zip",
+  "max_iterations": 8,
+  "task_timeout_seconds": 900,
+  "poll_limit_seconds": 600,
+  "target_files": null,
+  "description": "Boundary D：完整 synthetic repo，无 target_files"
+}

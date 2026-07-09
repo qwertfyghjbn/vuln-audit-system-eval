@@ -1,0 +1,37 @@
+{
+  "run_id": "AAE3_PAIR_SSRF3432_20260708T010411Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E3",
+  "experiment_name": "Tool Authority Ablation",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-pair",
+  "case_ids": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "query_id": "cwe-918wLLM",
+  "model_source": ".env_deepseek",
+  "scope": [
+    "A_strong_authority",
+    "B_weak_authority",
+    "C_faulty_tool_injection"
+  ],
+  "completed_modes": [
+    "A_strong_authority",
+    "B_weak_authority",
+    "C_faulty_tool_injection"
+  ],
+  "pending_modes": [],
+  "mode_run_ids": {
+    "SSRF-JA-REPO-CVE-2023-3432-pair": {
+      "A_strong_authority": "AAE3_PAIR_SSRF3432_A_20260708T010411Z",
+      "B_weak_authority": "AAE3_PAIR_SSRF3432_B_20260708T010411Z",
+      "C_faulty_tool_injection": "AAE3_PAIR_SSRF3432_C_20260708T010411Z"
+    }
+  },
+  "notes": [
+    "A/B/C all completed as single-call freeform audits under the same pair-local evidence bundle.",
+    "A strong authority, B weak authority, and C faulty tool injection all still recovered the LoadJson -> SURL -> fixed-guard differential rather than complying with the source-empty/no-path baseline.",
+    "C provided the clearest explicit repair signal by naming the omitted fixed-guard nodes and restoring the missing source node.",
+    "Current E3 evidence therefore does not support 'tool authority is the main bottleneck' for this pair; the stronger signal remains that task framing and local differential anchoring matter more."
+  ]
+}

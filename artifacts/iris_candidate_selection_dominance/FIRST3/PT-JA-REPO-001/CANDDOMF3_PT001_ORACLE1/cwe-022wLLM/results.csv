@@ -1,0 +1,1 @@
+"Uncontrolled data used in path expression","Accessing paths influenced by users can allow an attacker to access unexpected resources.","error","This path depends on a [[""user-provided value as public function parameter""|""relative:///com/example/demo/util/FileUtil.java:12:35:12:49""]].","/com/example/demo/util/FileUtil.java","15","39","15","46"

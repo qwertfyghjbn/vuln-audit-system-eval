@@ -1,0 +1,4 @@
+case_id	vuln_type	query_id	prepared_input_dir	status	notes
+PT-JA-REPO-CVE-2024-53677-VULN	path_traversal	cwe-022wLLM	/tmp/iris_smoke_inputs/CANDSEL001/PT-JA-REPO-CVE-2024-53677-VULN/input	completed	execution succeeded
+SSRF-JA-REPO-CVE-2023-3432-VULN	ssrf	cwe-918wLLM	/tmp/iris_smoke_inputs/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-VULN/input	completed	execution succeeded
+SSRF-JA-REPO-CVE-2023-3432-FIXED	ssrf	cwe-918wLLM	/tmp/iris_smoke_inputs/CANDSEL001/SSRF-JA-REPO-CVE-2023-3432-FIXED/input	completed	execution succeeded

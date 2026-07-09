@@ -1,0 +1,11 @@
+[
+  {
+    "package": "com.example.demo.util",
+    "class": "HttpUtil",
+    "method": "getUrl",
+    "signature": "String getUrl(String url)",
+    "tainted_input": [
+      "url"
+    ]
+  }
+]

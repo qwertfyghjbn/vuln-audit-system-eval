@@ -1,0 +1,4 @@
+case_key	role_or_group	status	execute_after	expand_to_r2_r3	batch_note
+PT-JA-REPO-CVE-2024-53677-VULN	self-pt-vuln	completed_r1	first	no	r1=DEEPSEEK_SELF01__pt53677_r1; source-present sink-empty no-path
+SSRF-JA-REPO-CVE-2023-3432-VULN	self-ssrf-vuln	completed_r1	second	no	r1=DEEPSEEK_SELF01__ssrf3432_vuln_r1; partial source/sink labelling but no final path
+SSRF-JA-REPO-CVE-2023-3432-FIXED	self-ssrf-fixed	completed_r1	third	no	r1=DEEPSEEK_SELF01__ssrf3432_fixed_r1; fixed control stayed zero-path

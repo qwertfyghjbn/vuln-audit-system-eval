@@ -1,0 +1,1 @@
+{"task_id":"67e4f6a7-8255-467c-a0a1-02582fb1dfb0","status":"completed","security_score":0,"total_findings":10,"verified_findings":0,"severity_distribution":{"high":6,"medium":4},"vulnerability_types":{"other":5,"ssrf":4,"path_traversal":1},"duration_seconds":346,"phases_completed":[]}

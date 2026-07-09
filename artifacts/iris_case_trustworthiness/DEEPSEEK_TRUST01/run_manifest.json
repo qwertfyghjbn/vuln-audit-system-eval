@@ -1,0 +1,15 @@
+{
+  "run_id": "DEEPSEEK_TRUST01",
+  "source_plan_run_id": "PLAN_DEEPSEEK_TRUST01",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "<recorded_deepseek_alias>",
+  "run_purpose": "official_case_trustworthiness_learning",
+  "run_status": "initialized",
+  "case_groups": [
+    "official",
+    "self"
+  ],
+  "notes": "Execution directory initialized from the planning scaffold on 2026-07-04; fill runtime-specific fields during execution."
+}

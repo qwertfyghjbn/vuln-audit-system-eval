@@ -1,0 +1,12 @@
+[
+  {
+    "package": "java.nio.file",
+    "class": "Files",
+    "method": "readAllBytes",
+    "signature": "byte[] readAllBytes(Path p0)",
+    "sink_args": [
+      "p0"
+    ],
+    "type": "sink"
+  }
+]

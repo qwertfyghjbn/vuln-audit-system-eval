@@ -1,0 +1,18 @@
+{
+  "variant_id": "AAE1_SSRF001_C_PATH",
+  "candidate_injected": true,
+  "summary_injected": true,
+  "slice_expanded": false,
+  "injected_apis": [
+    "RestTemplate()",
+    "RestTemplate.getForObject"
+  ],
+  "oracle_sources": [
+    "HttpUtil.getUrl(String)#url"
+  ],
+  "oracle_sinks": [
+    "RestTemplate.getForObject(p0)"
+  ],
+  "oracle_summaries": [],
+  "notes": "Minimal source/sink oracle replay on top of the candidate-injected shape."
+}

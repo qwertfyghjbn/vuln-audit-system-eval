@@ -1,0 +1,3 @@
+package,clazz,func,full_signature
+java.nio.file,Paths,get,"Path get(String p0, String[] p1)"
+java.nio.file,Files,readAllBytes,byte[] readAllBytes(Path p0)

@@ -1,0 +1,51 @@
+{
+  "run_id": "AAE2_PAIR_SSRF3432_20260707T123717Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E2",
+  "experiment_name": "Differential Freedom Ladder",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-pair",
+  "case_ids": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "project_slugs": {
+    "SSRF-JA-REPO-CVE-2023-3432-VULN": "bench__ssrf-ja-repo-cve-2023-3432_CVE-2023-3432_vuln",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED": "bench__ssrf-ja-repo-cve-2023-3432_CVE-2023-3432_fixed"
+  },
+  "query_id": "cwe-918wLLM",
+  "system_name": "iris-style-static-gated-workflow",
+  "model_source": ".env_deepseek",
+  "scope": [
+    "M1_original",
+    "M3_differential_target_context_constrained",
+    "M4_differential_free_auditor",
+    "M5_differential_agentic_auditor"
+  ],
+  "completed_modes": [
+    "M1_original",
+    "M3_differential_target_context_constrained",
+    "M4_differential_free_auditor"
+  ],
+  "pending_modes": [],
+  "mode_run_ids": {
+    "SSRF-JA-REPO-CVE-2023-3432-VULN": {
+      "M1_original": "AAE2_PAIR_SSRF3432_M1V_20260707T123717Z"
+    },
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED": {
+      "M1_original": "AAE2_PAIR_SSRF3432_M1F_20260707T123717Z"
+    },
+    "SSRF-JA-REPO-CVE-2023-3432-pair": {
+      "M3_differential_target_context_constrained": "AAE2_PAIR_SSRF3432_M3P_20260707T123717Z",
+      "M4_differential_free_auditor": "AAE2_PAIR_SSRF3432_M4P_20260707T123717Z"
+    }
+  },
+  "notes": [
+    "This E2 run executes the SSRF-3432 pair as two separate IRIS M1 runs and archives them under one pair-level run root.",
+    "IRIS expects internal project slugs rather than the external case IDs, so the actual M1 invocations used bench__ssrf-ja-repo-cve-2023-3432_CVE-2023-3432_vuln/fixed.",
+    "Both M1 runs completed stage9 and produced empty source predicates in MySources.qll, which is closer to the original official baseline shape than the E1 report's reused DEEPSEEK_SELF01 self-baseline evidence.",
+    "M3 completed as a pair-level constrained JSON run and successfully recovered the LoadJson -> SURL -> fixed-guard differential with a parsed response on the first try.",
+    "M4 completed with the same context bundle but without a requested JSON schema, and the model still preserved the same target-aligned vulnerable/fixed differential explanation.",
+    "Because M4 already met the pair-level success criterion, M5 is not required for the current round and remains a reserve escalation path rather than a pending mandatory step.",
+    "Future pair-level results should be appended to the dedicated human report e2_ssrf3432_pair_differential_freedom_report.md instead of being merged into the cron-utils E2 report."
+  ]
+}

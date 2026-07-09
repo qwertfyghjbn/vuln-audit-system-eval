@@ -1,0 +1,3 @@
+project_slug	query_id	rerun_count_completed	stage3_parse_error_pattern	source_pattern	sink_pattern	recall_pattern	preliminary_judgement	notes
+jmrozanec__cron-utils_CVE-2021-41269_9.1.5	cwe-094wLLM	3	r1=7;r2=7;r3=5	r1_source_0;r2_source_0;r3_source_0	r1_sink_1;r2_sink_2;r3_sink_2	r1_recall_false;r2_recall_false;r3_recall_false	stable_source_zero_failure_shape	all three reruns preserved the source-zero collapse and produced zero final results
+rhuss__jolokia_CVE-2018-1000129_1.4.0	cwe-079wLLM	3	r1=23;r2=20;r3=26	r1_source_5;r2_source_11;r3_source_5	r1_sink_0;r2_sink_5;r3_sink_5	r1_recall_false;r2_recall_true;r3_recall_false	mixed_outcome_sink_recovered_not_stable	r2 recovered the official method hit, while r3 kept sink recovery but still missed the official target

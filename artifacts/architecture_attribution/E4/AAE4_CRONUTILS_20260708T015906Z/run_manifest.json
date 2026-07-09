@@ -1,0 +1,11 @@
+{
+  "run_id": "AAE4_CRONUTILS_20260708T015906Z",
+  "backend_url": "http://127.0.0.1:8000",
+  "frontend_url": "http://127.0.0.1:3000",
+  "shared_input_dir": "/tmp/deepaudit/repo_runner_inputs",
+  "poll_interval_seconds": 10,
+  "llm_provider": "deepseek\r",
+  "llm_model": "deepseek-v4-pro\r",
+  "llm_base_url": "https://api.deepseek.com",
+  "runner_kind": "parameterized_repo_experiment"
+}

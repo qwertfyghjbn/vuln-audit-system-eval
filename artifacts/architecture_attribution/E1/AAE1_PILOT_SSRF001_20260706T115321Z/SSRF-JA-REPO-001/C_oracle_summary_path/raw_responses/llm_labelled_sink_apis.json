@@ -1,0 +1,12 @@
+[
+  {
+    "package": "org.springframework.web.client",
+    "class": "RestTemplate",
+    "method": "getForObject",
+    "signature": "String getForObject(String url, Class<String> responseType)",
+    "sink_args": [
+      "p0"
+    ],
+    "type": "sink"
+  }
+]

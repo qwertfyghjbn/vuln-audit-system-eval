@@ -1,0 +1,10 @@
+{
+  "run_id": "20260702T013845Z",
+  "backend_url": "http://localhost:8000",
+  "frontend_url": "http://localhost:3000",
+  "llm_provider": "deepseek",
+  "llm_model": "deepseek-v4-pro",
+  "llm_base_url": "https://api.deepseek.com",
+  "poll_interval_seconds": 10,
+  "runbook_kind": "boundary_condition_agent_slot"
+}

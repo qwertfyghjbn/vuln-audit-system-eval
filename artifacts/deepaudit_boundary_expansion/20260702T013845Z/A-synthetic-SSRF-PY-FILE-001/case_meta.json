@@ -1,0 +1,12 @@
+{
+  "experiment_id": "A-synthetic-SSRF-PY-FILE-001",
+  "case_id": "SSRF-PY-FILE-001",
+  "shape": "A",
+  "layer": "synthetic",
+  "run_class": "diagnostic only",
+  "kind": "instant_analysis",
+  "language": "python",
+  "target_vulnerability": "ssrf",
+  "source_file": "datasets/synthetic/SSRF-PY-FILE-001/app.py",
+  "description": "Boundary A：对 SSRF-PY-FILE-001 执行 instant analysis"
+}

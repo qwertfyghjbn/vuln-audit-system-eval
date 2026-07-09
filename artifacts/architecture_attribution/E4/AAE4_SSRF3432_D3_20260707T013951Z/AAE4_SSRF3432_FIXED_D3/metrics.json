@@ -1,0 +1,32 @@
+{
+  "status": "completed",
+  "classification": "completed_with_findings",
+  "total_iterations": 31,
+  "tool_calls_count": 27,
+  "tokens_used": 436815,
+  "wall_clock_seconds": 312,
+  "findings_count": 7,
+  "top_3_findings": [
+    {
+      "title": "src/net/sourceforge/plantuml/security/SURL.java:294-307 - forbiddenURL()的IP检测正则过于宽松：`^https?://[-#.0",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "src/net/sourceforge/plantuml/security/SecurityProfile.java:87-88 - LEGACY模式默认开启，无SSL限制，URL完全放行",
+      "severity": "high",
+      "file_path": null,
+      "vulnerability_type": "other",
+      "confidence": 0.6
+    },
+    {
+      "title": "Default LEGACY Security Profile Disables All SSRF Protections",
+      "severity": "low",
+      "file_path": null,
+      "vulnerability_type": "ssrf",
+      "confidence": 1.0
+    }
+  ]
+}

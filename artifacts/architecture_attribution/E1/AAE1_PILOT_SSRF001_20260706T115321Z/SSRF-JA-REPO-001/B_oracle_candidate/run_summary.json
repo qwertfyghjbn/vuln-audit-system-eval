@@ -1,0 +1,19 @@
+{
+  "variant_id": "AAE1_SSRF001_B_CAND",
+  "status": "completed",
+  "candidate_injected": true,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "llm_sources": 0,
+  "llm_sinks": 1,
+  "llm_taint_propagators": 0,
+  "num_vulnerable_paths": 0,
+  "target_alignment": false,
+  "cost_tokens": null,
+  "wall_time_seconds": null,
+  "tool_call_count": null,
+  "context_volume": null,
+  "parse_error_count": null,
+  "primary_observation": "Candidate injection improved the sink shape from 0 to 1, but MySinks.qll still collapsed to 1 = 0 and results remained empty.",
+  "provenance_source": "artifacts/iris_candidate_selection_dominance/FIRST3/SSRF-JA-REPO-001/CANDDOMF3_SSRF001_INJECT1"
+}

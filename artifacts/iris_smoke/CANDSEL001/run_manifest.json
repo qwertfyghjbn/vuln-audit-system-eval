@@ -1,0 +1,13 @@
+{
+  "run_id": "CANDSEL001",
+  "system_name": "iris",
+  "run_stage": "smoke",
+  "native_evaluation_environment": true,
+  "iris_root": "/tmp/iris-v2",
+  "derived_env_source": "/home/lqs/llm_audit_system_learning/.env_deepseek",
+  "derived_env_file": "/home/lqs/llm_audit_system_learning/artifacts/iris_smoke/CANDSEL001/iris.env",
+  "llm_provider": "deepseek",
+  "llm_model": "deepseek-v4-pro",
+  "llm_base_url": "https://api.deepseek.com",
+  "case_count": 3
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "AAE1_CRONUTILS_20260707T023145Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E1",
+  "experiment_name": "Static-gate Oracle",
+  "family_id": "jmrozanec__cron-utils_CVE-2021-41269_9.1.5",
+  "query_id": "cwe-094wLLM",
+  "system_name": "iris-style-static-gated-workflow",
+  "model_source": ".env_deepseek",
+  "execution_mode": "baseline_archival_plus_candidate_plan",
+  "notes": [
+    "A_original archives rerun_3 baseline evidence from DEEPSEEK_LLMVAR01.",
+    "B_oracle_candidate is prepared as a no-op candidate validation because target-adjacent source, sink, and Throwable.getMessage candidate are already present.",
+    "C_oracle_summary_path is expected to be the core action for this family."
+  ],
+  "source_evidence": {
+    "A_original": "artifacts/iris_case_trustworthiness/DEEPSEEK_LLMVAR01/official/jmrozanec__cron-utils_CVE-2021-41269_9.1.5/rerun_3",
+    "B_oracle_candidate_plan": "reports/systems/iris/registries/iris_candidate_selection_last2_diagnosis_matrix.tsv"
+  }
+}

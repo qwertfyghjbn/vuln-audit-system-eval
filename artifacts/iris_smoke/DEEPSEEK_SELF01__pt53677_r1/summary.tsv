@@ -1,0 +1,2 @@
+case_id	vuln_type	query_id	prepared_input_dir	status	notes
+PT-JA-REPO-CVE-2024-53677-VULN	path_traversal	cwe-022wLLM	/tmp/iris_smoke_inputs/DEEPSEEK_SELF01__pt53677_r1/PT-JA-REPO-CVE-2024-53677-VULN/input	completed	execution succeeded

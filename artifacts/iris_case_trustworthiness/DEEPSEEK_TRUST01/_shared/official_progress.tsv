@@ -1,0 +1,6 @@
+role	project_slug	fetch_state	build_state
+anchor	perwendel__spark_CVE-2018-9159_2.7.1	checked_out_buggy_commit	stage9_completed_recall_true
+contrast	perwendel__spark_CVE-2016-9177_2.5.1	checked_out_buggy_commit	stage9_completed_recall_true
+differential-1	vert-x3__vertx-web_CVE-2018-12542_3.5.3.CR1	checked_out_buggy_commit	stage9_completed_recall_false
+differential-2	jmrozanec__cron-utils_CVE-2021-41269_9.1.5	checked_out_buggy_commit	stage9_completed_recall_false
+control	rhuss__jolokia_CVE-2018-1000129_1.4.0	checked_out_buggy_commit	stage9_completed_recall_false

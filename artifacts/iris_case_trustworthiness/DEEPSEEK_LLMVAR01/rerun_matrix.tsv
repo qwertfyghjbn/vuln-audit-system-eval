@@ -1,0 +1,7 @@
+case_group	project_slug	query_id	rerun_label	case_execution_run_id	primary_observation_goal	db_strategy	status	archive_dir
+official	jmrozanec__cron-utils_CVE-2021-41269_9.1.5	cwe-094wLLM	r1	DEEPSEEK_LLMVAR01__cronutils_r1	validate_source_zero_stability	reuse_existing_db	completed	official/jmrozanec__cron-utils_CVE-2021-41269_9.1.5/rerun_1
+official	jmrozanec__cron-utils_CVE-2021-41269_9.1.5	cwe-094wLLM	r2	DEEPSEEK_LLMVAR01__cronutils_r2	validate_source_zero_stability	reuse_existing_db	completed	official/jmrozanec__cron-utils_CVE-2021-41269_9.1.5/rerun_2
+official	jmrozanec__cron-utils_CVE-2021-41269_9.1.5	cwe-094wLLM	r3	DEEPSEEK_LLMVAR01__cronutils_r3	validate_source_zero_stability	reuse_existing_db	completed	official/jmrozanec__cron-utils_CVE-2021-41269_9.1.5/rerun_3
+official	rhuss__jolokia_CVE-2018-1000129_1.4.0	cwe-079wLLM	r1	DEEPSEEK_LLMVAR01__jolokia_r1	validate_sink_zero_stability	reuse_existing_db	completed	official/rhuss__jolokia_CVE-2018-1000129_1.4.0/rerun_1
+official	rhuss__jolokia_CVE-2018-1000129_1.4.0	cwe-079wLLM	r2	DEEPSEEK_LLMVAR01__jolokia_r2	validate_sink_zero_stability	reuse_existing_db	completed	official/rhuss__jolokia_CVE-2018-1000129_1.4.0/rerun_2
+official	rhuss__jolokia_CVE-2018-1000129_1.4.0	cwe-079wLLM	r3	DEEPSEEK_LLMVAR01__jolokia_r3	validate_sink_zero_stability	reuse_existing_db	completed	official/rhuss__jolokia_CVE-2018-1000129_1.4.0/rerun_3

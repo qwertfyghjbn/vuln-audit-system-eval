@@ -1,0 +1,10 @@
+{
+  "variant_id": "AAE1_SSRF001_B_CAND",
+  "case_id": "SSRF-JA-REPO-001",
+  "query_id": "cwe-918wLLM",
+  "vuln_type": "ssrf",
+  "compile_recipe": "datasets/synthetic/SSRF-JA-REPO-001/build_support/java_compile_recipe.json",
+  "clean_input_root": "/tmp/iris_smoke_inputs/OFFICIALSMOKE01/SSRF-JA-REPO-001/input",
+  "model_source": ".env_deepseek",
+  "provenance_source": "artifacts/iris_candidate_selection_dominance/FIRST3/SSRF-JA-REPO-001/CANDDOMF3_SSRF001_INJECT1"
+}

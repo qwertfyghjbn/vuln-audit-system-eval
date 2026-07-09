@@ -1,0 +1,3 @@
+package,clazz,func,full_signature
+org.springframework.web.client,RestTemplate,RestTemplate,RestTemplate()
+org.springframework.web.client,RestTemplate,getForObject,"String getForObject(String url, Class<String> responseType)"

@@ -1,0 +1,19 @@
+{
+  "variant_id": "AAE1_SSRF001_C_PATH",
+  "status": "completed",
+  "candidate_injected": true,
+  "summary_injected": true,
+  "slice_expanded": false,
+  "llm_sources": 1,
+  "llm_sinks": 1,
+  "llm_taint_propagators": 0,
+  "num_vulnerable_paths": 1,
+  "target_alignment": true,
+  "cost_tokens": null,
+  "wall_time_seconds": null,
+  "tool_call_count": null,
+  "context_volume": null,
+  "parse_error_count": null,
+  "primary_observation": "Minimal source/sink QLL materialization restored a target-aligned SSRF finding at util/HttpUtil.java:11.",
+  "provenance_source": "artifacts/iris_candidate_selection_dominance/FIRST3/SSRF-JA-REPO-001/CANDDOMF3_SSRF001_ORACLE1"
+}

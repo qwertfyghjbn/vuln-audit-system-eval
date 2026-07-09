@@ -1,0 +1,10 @@
+{
+  "variant_id": "AAE1_SSRF001_D_SLICE",
+  "candidate_injected": true,
+  "summary_injected": true,
+  "slice_expanded": true,
+  "oracle_sources": [],
+  "oracle_sinks": [],
+  "oracle_summaries": [],
+  "notes": "Skipped because C already recovered a target-aligned result under the E1 stop rule."
+}

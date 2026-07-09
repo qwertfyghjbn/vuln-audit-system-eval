@@ -1,0 +1,34 @@
+{
+  "mode_id": "C_faulty_tool_injection",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-VULN/FIXED",
+  "query_id": "cwe-918wLLM",
+  "pair_mode": true,
+  "paired_cases": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "input_bundle": "pair_local_evidence_plus_faulty_tool_candidate_injection",
+  "authority_strength": "weak_but_faulty",
+  "tool_prior_injected": true,
+  "faulty_tool_injection": true,
+  "freeform_output": true,
+  "agentic_repo_access": false,
+  "candidate_injected": true,
+  "summary_injected": true,
+  "slice_expanded": false,
+  "differential_evaluation_required": true,
+  "fixed_side_guard_required": true,
+  "faulty_injection_must_drop_at_least_one": [
+    "LoadJson.path_or_equivalent_source",
+    "SURL.getBytes_or_equivalent_network_sink",
+    "forbiddenURL_or_isInUrlAllowList_guard"
+  ],
+  "must_answer": [
+    "whether_tool_candidates_are_incomplete_or_wrong",
+    "which_missing_source_sink_guard_should_be_restored",
+    "why_vulnerable_side_holds",
+    "why_fixed_side_no_longer_holds",
+    "minimal_semantic_delta"
+  ],
+  "model_runner": "scripts/run_llm_prompt_capture.py"
+}

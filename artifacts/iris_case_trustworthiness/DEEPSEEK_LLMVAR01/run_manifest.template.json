@@ -1,0 +1,12 @@
+{
+  "run_id": "DEEPSEEK_LLMVAR01",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "<recorded_deepseek_alias>",
+  "run_purpose": "official_case_llm_variance_rerun_learning",
+  "case_groups": [
+    "official"
+  ],
+  "notes": "Template snapshot for DEEPSEEK_LLMVAR01. Fill runtime-specific values as each rerun is executed."
+}

@@ -1,0 +1,14 @@
+{
+  "variant_id": "AAE1_SSRF001_B_CAND",
+  "candidate_injected": true,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "injected_apis": [
+    "RestTemplate()",
+    "RestTemplate.getForObject"
+  ],
+  "oracle_sources": [],
+  "oracle_sinks": [],
+  "oracle_summaries": [],
+  "notes": "Candidate-only injection. Stage 3 first admits RestTemplate.getForObject, but sink_args remain named as url rather than positional p0."
+}

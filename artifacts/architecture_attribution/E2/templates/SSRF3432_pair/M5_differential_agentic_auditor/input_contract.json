@@ -1,0 +1,34 @@
+{
+  "mode_id": "M5_differential_agentic_auditor",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-VULN/FIXED",
+  "query_id": "cwe-918wLLM",
+  "pair_mode": true,
+  "paired_cases": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "input_bundle": "M4_start_bundle_plus_constrained_agentic_retrieval_loop",
+  "source_window_added": false,
+  "target_context_memo_added": true,
+  "freeform_output": true,
+  "agentic_repo_access": true,
+  "candidate_injected": false,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "differential_evaluation_required": true,
+  "fixed_side_guard_required": true,
+  "retrieval_budget_files": 4,
+  "allowed_extra_files": [
+    "src/net/sourceforge/plantuml/tim/stdlib/LoadJson.java",
+    "src/net/sourceforge/plantuml/security/SURL.java",
+    "src/net/sourceforge/plantuml/security/SecurityProfile.java",
+    "src/net/sourceforge/plantuml/security/SecurityUtils.java"
+  ],
+  "allowed_expansion_rule": "direct_callers_callees_or_immediate_guard_neighbors_only",
+  "required_artifacts": [
+    "tool_trace.json",
+    "opened_files.txt",
+    "context_volume.json",
+    "new_files_beyond_M4.txt"
+  ]
+}

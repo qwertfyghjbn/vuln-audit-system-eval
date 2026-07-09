@@ -1,0 +1,33 @@
+{
+  "mode_id": "M1_original",
+  "family_id": "SSRF-JA-REPO-CVE-2023-3432-VULN/FIXED",
+  "query_id": "cwe-918wLLM",
+  "pair_mode": true,
+  "paired_cases": [
+    "SSRF-JA-REPO-CVE-2023-3432-VULN",
+    "SSRF-JA-REPO-CVE-2023-3432-FIXED"
+  ],
+  "input_bundle": "original_stage3_api_candidates_plus_original_source_func_param_candidates",
+  "source_window_added": false,
+  "target_context_memo_added": false,
+  "freeform_output": false,
+  "agentic_repo_access": false,
+  "candidate_injected": false,
+  "summary_injected": false,
+  "slice_expanded": false,
+  "differential_evaluation_required": true,
+  "fixed_side_guard_required": true,
+  "forbidden_inputs": [
+    "ground_truth.json",
+    "answer_bearing_README",
+    "patch",
+    "diff",
+    "official_fix_explanation",
+    "E4_high_information_staging_files"
+  ],
+  "success_requires": [
+    "vulnerable_path_explained",
+    "fixed_guard_explained",
+    "minimal_semantic_delta"
+  ]
+}

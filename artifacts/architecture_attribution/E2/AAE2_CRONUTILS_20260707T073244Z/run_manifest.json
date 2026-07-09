@@ -1,0 +1,33 @@
+{
+  "run_id": "AAE2_CRONUTILS_20260707T073244Z",
+  "experiment_line": "architecture_attribution",
+  "experiment_id": "E2",
+  "experiment_name": "LLM Freedom Ladder",
+  "family_id": "jmrozanec__cron-utils_CVE-2021-41269_9.1.5",
+  "query_id": "cwe-094wLLM",
+  "system_name": "iris-style-static-gated-workflow",
+  "model_source": ".env_deepseek",
+  "scope": [
+    "M1_original",
+    "M2_candidate_source_window",
+    "M3_target_context_constrained",
+    "M4_free_auditor",
+    "M5_agentic_auditor"
+  ],
+  "completed_modes": [
+    "M1_original",
+    "M2_candidate_source_window",
+    "M3_target_context_constrained",
+    "M4_free_auditor",
+    "M5_agentic_auditor"
+  ],
+  "pending_modes": [],
+  "notes": [
+    "M1 preserved the original IRIS-style structured labeling workflow and did not add source-window, target-context memo, freeform audit text, or agentic repo traversal.",
+    "The first local attempt reached Stage 3 but failed with a sandboxed network denial; the completed run resumed with the same run_id under escalated network permissions and reused the already-materialized Stage 1/2 outputs.",
+    "M2 used a local IRIS prompt hook to append a minimal source-window to both Stage 3 and Stage 4 prompts via IRIS_PROMPT_CONTEXT_FILE, without changing the original candidate sets.",
+    "M3 first restored target-aligned reasoning by adding an explicit target-context memo while keeping the output schema constrained.",
+    "M4 showed that once the target-context memo was present, removing the JSON schema constraint still preserved the full target-aligned explanation.",
+    "M5's constrained agentic loop requested zero additional files, indicating that after M3/M4 the starting bundle was already sufficient for cron-utils."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "case_id": "PT-JA-REPO-001",
+  "project_slug": "bench__pt-ja-repo-001_SYNTHETIC_smoke",
+  "case_dir": "datasets/synthetic/PT-JA-REPO-001",
+  "vuln_type": "path_traversal",
+  "query_id": "cwe-022wLLM",
+  "source_root": "src/main/java",
+  "compile_recipe": "build_support/java_compile_recipe.json",
+  "prepared_input_dir": "/tmp/iris_smoke_inputs/OFFICIALSMOKE01/PT-JA-REPO-001/input",
+  "run_class": "smoke experiment"
+}

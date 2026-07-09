@@ -1,0 +1,1 @@
+"Server-side request forgery","Making web requests based on unvalidated user-input may cause the server to communicate with malicious servers.","error","Potential server-side request forgery due to a [[""user-provided value""|""relative:///com/example/demo/util/HttpUtil.java:9:33:9:42""]].","/com/example/demo/util/HttpUtil.java","11","47","11","49"

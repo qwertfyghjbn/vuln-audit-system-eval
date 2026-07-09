@@ -1,0 +1,14 @@
+{
+  "run_id": "DEEPSEEK_LLMVAR01",
+  "source_plan_doc": "reports/systems/iris/summaries/iris_llm_variance_rerun_plan.md",
+  "system_name": "iris",
+  "system_variant": "iris-runtime-compat-001",
+  "llm_provider": "deepseek",
+  "llm_model_alias": "deepseek-v4-pro",
+  "run_purpose": "official_case_llm_variance_rerun_learning",
+  "run_status": "in_progress",
+  "case_groups": [
+    "official"
+  ],
+  "notes": "Initialized on 2026-07-04 for the minimal rerun batch that diagnoses provider-sensitive failure versus single-run random failure. Both rerun trilogies are now complete: cron-utils preserved a stable source-zero failure shape, while jolokia showed sink recovery and mixed final outcomes under the same frozen DeepSeek configuration."
+}
