@@ -1,0 +1,38 @@
+# Local agent/tool state
+.agents/
+.codex/
+.env*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Transient or diagnostic artifact trees that should not go to GitHub
+artifacts/deepaudit_smoke/
+artifacts/deepaudit_diagnosis/
+artifacts/deepaudit_timing/
+artifacts/deepaudit_repo_experiments/
+artifacts/iris_preflight/
+artifacts/iris_candidate_validation/
+artifacts/iris_smoke/TEST*/
+artifacts/iris_smoke/FIRSTREAL/
+artifacts/iris_smoke/TESTRUNREAL/
+
+# Runtime auth / environment material
+artifacts/**/_auth/
+artifacts/**/*.env
+artifacts/**/result.env
+
+# DeepAudit request / runtime byproducts that are not part of the curated evidence set
+artifacts/**/create_project.json
+artifacts/**/create_task.json
+artifacts/**/upload_zip.json
+artifacts/**/login_user.json
+artifacts/**/register_user.json
+artifacts/**/project_id.txt
+artifacts/**/task_id.txt
+artifacts/**/task_events.stderr.log
+artifacts/**/task_findings.stderr.log
+artifacts/**/task_object.stderr.log
+artifacts/**/task_summary.stderr.log
+artifacts/**/zip_metadata.stderr.log

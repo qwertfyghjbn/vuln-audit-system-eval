@@ -1,0 +1,52 @@
+{
+  "case_id": "SSTI-PY-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 greet()，它固定模板源并把用户输入仅作为 context variable 传入。",
+    "minimum_match": {
+      "file": "app.py",
+      "function": "greet",
+      "line_range": [
+        24,
+        24
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The template string _GREETING_TEMPLATE is a static constant with a {{ name }} placeholder. User input is passed as a context variable (kwarg), never concatenated into the template source. _sanitize_name() further validates the input against a strict alphanumeric regex before it reaches render_template_string().",
+    "false_positive_risk": "A system that flags any call to render_template_string() where a user-derived variable appears in scope — without distinguishing between context-variable injection and template-source injection — will produce a false positive at line 24.",
+    "guard_locations": [
+      {
+        "file": "app.py",
+        "function": "_sanitize_name",
+        "line_start": 9,
+        "line_end": 14,
+        "controls": [
+          {
+            "description": "Strict regex allowlist permits only alphanumeric characters, spaces, underscores, and hyphens up to 64 chars. Jinja2 control characters {{ }} % # are excluded.",
+            "line": 12,
+            "code_snippet": "if _ALLOWED_NAME_RE.fullmatch(stripped):"
+          }
+        ]
+      },
+      {
+        "file": "app.py",
+        "function": "greet",
+        "line_start": 24,
+        "line_end": 24,
+        "controls": [
+          {
+            "description": "name is passed as a context variable kwarg, not concatenated into the template string. The template source _GREETING_TEMPLATE is a module-level constant that cannot be influenced by user input.",
+            "line": 24,
+            "code_snippet": "return render_template_string(_GREETING_TEMPLATE, name=name)"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Key distinction from SSTI-PY-FILE-001: template source is static; user data enters only as a context variable. The regex allowlist is defense-in-depth, not the primary control — the static template is."
+}

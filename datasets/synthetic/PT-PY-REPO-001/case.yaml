@@ -1,0 +1,34 @@
+id: "PT-PY-REPO-001"
+title: "Path traversal via three-layer route→service→utils chain (Python)"
+description: |
+  A Flask application with route/service/utils layering. The /api/files/download
+  endpoint reads a filename from request.args in the route layer, passes it
+  through FileService.get_file_content() in the service layer, and ultimately
+  calls read_file() in the utils layer which uses os.path.join + open() without
+  any normalization or prefix check. The taint flows across three files before
+  reaching the sink, requiring cross-file inter-procedural analysis to trace.
+
+language: python
+vuln_type: path_traversal
+label: vulnerable
+input_mode: repo
+difficulty: medium
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src"
+  entry_points:
+    - "routes/file_routes.py"
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "multi-layer", "cross-file", "os.path.join", "no-validation", "route-service-utils"]

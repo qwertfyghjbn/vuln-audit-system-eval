@@ -1,0 +1,31 @@
+id: "SSRF-PY-FILE-001"
+title: "SSRF in Flask URL-fetch endpoint"
+description: |
+  A Flask route accepts a full URL from the query string and passes it
+  directly to requests.get() with no scheme, host, or IP-range validation.
+  An attacker can supply internal addresses (e.g. http://169.254.169.254/)
+  to probe the internal network or cloud metadata services.
+
+language: python
+vuln_type: ssrf
+label: vulnerable
+input_mode: file
+difficulty: easy
+
+input:
+  primary_file: "app.py"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "requests.get", "no-validation", "metadata-service"]

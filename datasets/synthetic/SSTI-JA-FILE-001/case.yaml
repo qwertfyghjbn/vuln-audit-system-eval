@@ -1,0 +1,32 @@
+id: "SSTI-JA-FILE-001"
+title: "SSTI via string concatenation into Freemarker Template constructor"
+description: |
+  A Spring Boot REST controller concatenates a user-supplied name directly
+  into a Freemarker template source string, then constructs a Template object
+  from it via new Template(..., new StringReader(templateStr), cfg). The
+  Freemarker engine parses and evaluates the full string, including any
+  FreeMarker directives or expressions the attacker embeds.
+
+language: java
+vuln_type: ssti
+label: vulnerable
+input_mode: file
+difficulty: easy
+
+input:
+  primary_file: "GreetController.java"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "freemarker", "Template-constructor", "string-concatenation", "no-escaping"]

@@ -1,0 +1,36 @@
+id: "SSTI-JA-REPO-001"
+title: "SSTI via three-layer controller→service→util Freemarker injection (Java)"
+description: |
+  A Spring Boot application with controller/service/util layering. The
+  /api/reports/preview endpoint reads a title from @RequestParam in the
+  controller layer, passes it through ReportService.renderPreview() in the
+  service layer, and ultimately calls TemplateUtil.renderReportTemplate() in
+  the util layer which concatenates the title directly into a Freemarker
+  template source string before constructing a Template object. The taint
+  flows across three files before reaching the sink, requiring cross-file
+  inter-procedural analysis.
+
+language: java
+vuln_type: ssti
+label: vulnerable
+input_mode: repo
+difficulty: medium
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src/main/java"
+  entry_points:
+    - "com/example/demo/controller/ReportController.java"
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "freemarker", "multi-layer", "cross-file", "string-concatenation", "Template-constructor", "controller-service-util"]

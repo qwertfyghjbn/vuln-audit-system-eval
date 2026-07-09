@@ -1,0 +1,35 @@
+id: "PT-JA-REPO-001"
+title: "Path traversal via three-layer controller→service→util chain (Java)"
+description: |
+  A Spring Boot application with controller/service/util layering. The
+  /api/files/download endpoint reads a filename from @RequestParam in the
+  controller layer, passes it through FileService.getFileContent() in the
+  service layer, and ultimately calls FileUtil.readFile() in the util layer
+  which uses Paths.get() + Files.readAllBytes() without normalization or
+  prefix check. The taint flows across three files before reaching the sink,
+  requiring cross-file inter-procedural analysis to trace.
+
+language: java
+vuln_type: path_traversal
+label: vulnerable
+input_mode: repo
+difficulty: medium
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src/main/java"
+  entry_points:
+    - "com/example/demo/controller/FileController.java"
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "multi-layer", "cross-file", "Paths.get", "Files.readAllBytes", "no-validation", "controller-service-util"]

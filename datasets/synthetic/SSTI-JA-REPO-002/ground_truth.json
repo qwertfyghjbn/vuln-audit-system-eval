@@ -1,0 +1,62 @@
+{
+  "case_id": "SSTI-JA-REPO-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 renderReportTemplate()，它固定模板源并把用户输入仅作为 model variable 传入。",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+      "function": "renderReportTemplate",
+      "line_range": [
+        13,
+        25
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The Freemarker template source is the static constant REPORT_TEMPLATE defined at class load time. User input is passed only as a model variable via Map.of(\"title\", title) to template.process(), never concatenated into the template source. validateTitle() in the service layer provides additional defense-in-depth via a strict regex allowlist.",
+    "false_positive_risk": "A system that traces @RequestParam title → renderReportTemplate(safeTitle) → new Template(...) and sees user-derived 'title' reachable near the Template constructor — without checking whether 'title' entered the template *source* or only the *model map* — will incorrectly flag new Template() at util/TemplateUtil.java line 23 as a High-severity SSTI sink. A second trigger: a system that does not enter validateTitle() in the service layer will not recognize the regex guard.",
+    "guard_locations": [
+      {
+        "file": "src/main/java/com/example/demo/service/ReportService.java",
+        "function": "validateTitle",
+        "line_start": 12,
+        "line_end": 16,
+        "controls": [
+          {
+            "description": "Strict regex allowlist permits only alphanumeric characters and a limited set of punctuation up to 128 chars. Freemarker control characters $, {, }, #, < are excluded.",
+            "line": 15,
+            "code_snippet": "return ALLOWED_TITLE.matcher(stripped).matches() ? stripped : null;"
+          }
+        ]
+      },
+      {
+        "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+        "function": "renderReportTemplate",
+        "line_start": 13,
+        "line_end": 25,
+        "controls": [
+          {
+            "description": "Template source is the static constant REPORT_TEMPLATE defined at class load time and never modified. User input does not reach the template source argument of new Template() — the security guarantee comes from this source-vs-model separation, not from any filtering property of the ${title} syntax.",
+            "line": 13,
+            "code_snippet": "private static final String REPORT_TEMPLATE =\n            \"<h1>${title}</h1><p>Report Preview</p>\";"
+          },
+          {
+            "description": "new Template() receives REPORT_TEMPLATE — a compile-time constant string — as its source. User input never reaches the template source argument.",
+            "line": 23,
+            "code_snippet": "Template template = new Template(\"report\", new StringReader(REPORT_TEMPLATE), CFG);"
+          },
+          {
+            "description": "User input is passed as a model variable via Map.of(\"title\", title). Freemarker renders ${title} by value substitution — this is data binding, not code injection.",
+            "line": 25,
+            "code_snippet": "template.process(Map.of(\"title\", title), out);"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Difficulty is 'hard': guard is split across two layers/files. Primary defense is the static template in util (source-vs-model distinction). Regex in service is defense-in-depth. A correct system must verify that new Template() receives only REPORT_TEMPLATE (a static constant), not the user-supplied title."
+}

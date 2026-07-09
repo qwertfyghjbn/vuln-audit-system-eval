@@ -1,0 +1,8 @@
+{
+  "source_files": [
+    "com/example/demo/util/HttpUtil.java"
+  ],
+  "stub_source_roots": [
+    "build_support/stubs"
+  ]
+}

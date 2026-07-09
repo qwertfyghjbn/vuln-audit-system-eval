@@ -1,0 +1,21 @@
+{
+  "experiment_id": "C-synthetic-SSRF-PY-REPO-001",
+  "case_id": "SSRF-PY-REPO-001",
+  "case_dir": "datasets/synthetic/SSRF-PY-REPO-001",
+  "input_path": "src",
+  "language": "python",
+  "target_vulnerability": "ssrf",
+  "shape": "C",
+  "layer": "synthetic",
+  "run_class": "diagnostic only",
+  "description": "最小扩样示例：完整 synthetic repo，显式 target_files 收窄到 SSRF 传播链",
+  "constraint_summary": "完整 synthetic repo；显式 target_files 收窄；Python；非 PT",
+  "max_iterations": 8,
+  "timeout_seconds": 900,
+  "poll_limit_seconds": 480,
+  "target_files": [
+    "src/routes/proxy_routes.py",
+    "src/services/proxy_service.py",
+    "src/utils/http_utils.py"
+  ]
+}

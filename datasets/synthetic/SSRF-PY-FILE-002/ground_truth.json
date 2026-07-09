@@ -1,0 +1,62 @@
+{
+  "case_id": "SSRF-PY-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 _is_safe_url()，它负责执行协议、域名与 IP 范围校验。",
+    "minimum_match": {
+      "file": "app.py",
+      "function": "_is_safe_url",
+      "line_range": [
+        12,
+        39
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The URL is validated by _is_safe_url() before requests.get() is called. The guard enforces https-only scheme, domain allowlist, and IP-range blocking. allow_redirects=False prevents redirect chains that could bypass host validation.",
+    "false_positive_risk": "A system matching 'request.args → requests.get()' without tracing into _is_safe_url() will incorrectly flag requests.get() at line 52 as a High-severity SSRF sink.",
+    "guard_locations": [
+      {
+        "file": "app.py",
+        "function": "_is_safe_url",
+        "line_start": 12,
+        "line_end": 39,
+        "controls": [
+          {
+            "description": "Scheme allowlist: only 'https' is permitted, blocking file://, gopher://, dict:// and plain http://.",
+            "line": 22,
+            "code_snippet": "if parsed.scheme not in ALLOWED_SCHEMES:"
+          },
+          {
+            "description": "Domain allowlist: only api.example.com and cdn.example.com are permitted, blocking arbitrary external or internal hostnames.",
+            "line": 29,
+            "code_snippet": "if hostname not in ALLOWED_DOMAINS:"
+          },
+          {
+            "description": "IP-range blocklist: if the hostname is a raw IP address, private/loopback/link-local ranges are rejected, blocking 127.x, 10.x, 192.168.x, 169.254.x etc.",
+            "line": 34,
+            "code_snippet": "if addr.is_private or addr.is_loopback or addr.is_link_local:"
+          }
+        ]
+      },
+      {
+        "file": "app.py",
+        "function": "fetch_url",
+        "line_start": 52,
+        "line_end": 52,
+        "controls": [
+          {
+            "description": "allow_redirects=False prevents the HTTP client from following 3xx redirects that could redirect to an internal host after passing the initial validation.",
+            "line": 52,
+            "code_snippet": "resp = requests.get(url, timeout=5, allow_redirects=False)"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "DNS rebinding is a theoretical residual risk not modeled here; for the purpose of static analysis evaluation this case is labeled near_miss / safe."
+}

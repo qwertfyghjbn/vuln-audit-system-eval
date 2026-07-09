@@ -1,0 +1,33 @@
+id: "PT-PY-FILE-002"
+title: "Path traversal guard via extracted helper (near-miss)"
+description: |
+  A Flask route that looks structurally similar to PT-PY-FILE-001:
+  user input flows through os.path.join into open(). However, a dedicated
+  helper function (_resolve_safe_path) applies normpath, rejects absolute
+  paths, and enforces a realpath prefix check before returning the resolved
+  path. A system that does not trace across function boundaries may
+  incorrectly flag open() as a vulnerable sink.
+
+language: python
+vuln_type: path_traversal
+label: near_miss
+input_mode: file
+difficulty: medium
+
+input:
+  primary_file: "app.py"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 0
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "file-read", "os.path.realpath", "cross-function-guard", "near-miss"]

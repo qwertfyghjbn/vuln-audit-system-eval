@@ -1,0 +1,80 @@
+{
+  "case_id": "SSTI-JA-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssti",
+      "severity": "high",
+      "location": {
+        "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+        "function": "renderReportTemplate",
+        "line_start": 19,
+        "line_end": 25
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string bound from the HTTP query parameter via @RequestParam in the controller layer. Spring performs no sanitization during binding.",
+          "location": {
+            "file": "src/main/java/com/example/demo/controller/ReportController.java",
+            "line": 15
+          },
+          "code_snippet": "public ResponseEntity<String> preview(@RequestParam String title) {"
+        },
+        "propagation": [
+          {
+            "description": "title is forwarded unchanged to ReportService.renderPreview() — no validation at the controller-to-service boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/controller/ReportController.java",
+              "line": 19
+            },
+            "code_snippet": "String html = reportService.renderPreview(title);"
+          },
+          {
+            "description": "ReportService.renderPreview() passes title directly to TemplateUtil.renderReportTemplate() without any sanitization — no validation at the service-to-util boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/service/ReportService.java",
+              "line": 8
+            },
+            "code_snippet": "return TemplateUtil.renderReportTemplate(title);"
+          },
+          {
+            "description": "title is concatenated with '+' directly into the Freemarker template source string, embedding user input as raw template syntax before parsing.",
+            "location": {
+              "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+              "line": 21
+            },
+            "code_snippet": "String templateStr = \"<h1>\" + title + \"</h1><p>Report Preview</p>\";"
+          }
+        ],
+        "sink": {
+          "description": "new Template(..., new StringReader(templateStr), CFG) parses the attacker-controlled string as a Freemarker template. Any Freemarker expressions embedded in title (e.g. ${7*7}) are compiled and evaluated by template.process().",
+          "location": {
+            "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+            "line": 22
+          },
+          "code_snippet": "Template template = new Template(\"report\", new StringReader(templateStr), CFG);"
+        }
+      },
+      "missing_controls": [
+        "use a static template constant with ${title} placeholder",
+        "pass title as a model variable to template.process(model, out), never concatenate into source",
+        "allowlist / regex filter on title if concatenation is unavoidable"
+      ],
+      "risk_reasoning": "The title value propagates through three layers (controller → service → util) without any validation. It is concatenated into the Freemarker template source string in the util layer, then parsed by new Template(). An attacker supplying '${7*7}' or Freemarker directives can evaluate arbitrary expressions and potentially achieve RCE.",
+      "remediation_hint": "Define a static template constant '<h1>${title}</h1><p>Report Preview</p>' and pass title as a model variable: model.put(\"title\", title); template.process(model, out). Never concatenate user input into the template source string."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in util/TemplateUtil.java where user input is concatenated into the template source and passed to new Template(). Source identification in controller/ReportController.java is additional credit.",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/util/TemplateUtil.java",
+      "line_range": [21, 23],
+      "function": "renderReportTemplate"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Cross-file SSTI: controller (source) → service (passthrough) → util (concat into template source + Template constructor sink). The HTML tag wrapping mildly obfuscates the concatenation. The Template constructor (line 22) parses; process() (line 24) evaluates — sink is at construction."
+}

@@ -1,0 +1,65 @@
+{
+  "case_id": "PT-PY-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "path_traversal",
+      "severity": "high",
+      "location": {
+        "file": "src/utils/file_utils.py",
+        "function": "read_file",
+        "line_start": 6,
+        "line_end": 10
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string from query parameter 'filename' received in the route layer. No type, format, or character check is applied.",
+          "location": { "file": "src/routes/file_routes.py", "line": 10 },
+          "code_snippet": "filename = request.args.get('filename', '')"
+        },
+        "propagation": [
+          {
+            "description": "filename is forwarded unchanged to FileService.get_file_content() — no validation at the route-to-service boundary.",
+            "location": { "file": "src/routes/file_routes.py", "line": 14 },
+            "code_snippet": "content = _service.get_file_content(filename)"
+          },
+          {
+            "description": "FileService.get_file_content() passes filename directly to read_file() without any sanitization — no validation at the service-to-utils boundary.",
+            "location": { "file": "src/services/file_service.py", "line": 5 },
+            "code_snippet": "return read_file(filename)"
+          },
+          {
+            "description": "os.path.join(BASE_DIR, filename) appends the tainted string. A value containing '../' sequences resolves outside BASE_DIR.",
+            "location": { "file": "src/utils/file_utils.py", "line": 7 },
+            "code_snippet": "file_path = os.path.join(BASE_DIR, filename)"
+          }
+        ],
+        "sink": {
+          "description": "open() reads the file at the unvalidated path. An attacker can supply '../../etc/passwd' to read arbitrary files accessible to the process.",
+          "location": { "file": "src/utils/file_utils.py", "line": 9 },
+          "code_snippet": "with open(file_path, 'rb') as f:"
+        }
+      },
+      "missing_controls": [
+        "os.path.realpath() to canonicalize symlinks and '..' components",
+        "prefix restriction: assert resolved path starts with os.path.realpath(BASE_DIR)",
+        "validation at service or utils boundary before os.path.join"
+      ],
+      "risk_reasoning": "The filename value propagates through three layers (route → service → utils) without any validation. It enters os.path.join and then open() in the utils layer. '../' traversal sequences are not stripped at any layer, enabling arbitrary file read.",
+      "remediation_hint": "In read_file(), resolve the joined path with os.path.realpath() and assert it starts with os.path.realpath(BASE_DIR) + os.sep before calling open(). Alternatively, add the check at the service boundary before delegating to utils."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in utils/file_utils.py. Source identification in routes/file_routes.py is additional credit.",
+    "minimum_match": {
+      "file": "src/utils/file_utils.py",
+      "line_range": [7, 10],
+      "function": "read_file"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "This case tests cross-file inter-procedural taint tracing: route layer (source) → service layer (passthrough) → utils layer (sink). Each layer boundary is an opportunity for a system to lose track of the taint."
+}

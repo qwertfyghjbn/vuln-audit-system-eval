@@ -1,0 +1,49 @@
+{
+  "case_id": "PT-JA-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 resolveSafePath()，它负责 canonical path 解析与目录边界校验。",
+    "minimum_match": {
+      "file": "FileController.java",
+      "function": "resolveSafePath",
+      "line_range": [
+        20,
+        28
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The path is fully validated inside resolveSafePath() before Files.readAllBytes() is called. normalize() collapses '..' segments, toRealPath() resolves symlinks to a canonical form, and startsWith() enforces that the result stays within BASE_DIR.",
+    "false_positive_risk": "A system that matches '@RequestParam → Paths/Files API → Files.readAllBytes()' without tracing into resolveSafePath() will incorrectly flag Files.readAllBytes() at line 43 as a vulnerable sink.",
+    "guard_locations": [
+      {
+        "file": "FileController.java",
+        "function": "resolveSafePath",
+        "line_start": 20,
+        "line_end": 28,
+        "controls": [
+          {
+            "description": "BASE_DIR.resolve(filename).normalize() appends the user input and immediately collapses any '..' components, removing traversal sequences from the logical path.",
+            "line": 21,
+            "code_snippet": "Path resolved = BASE_DIR.resolve(filename).normalize();"
+          },
+          {
+            "description": "toRealPath() resolves all symbolic links and returns the canonical absolute path, preventing symlink-based escapes that normalize() alone would not catch.",
+            "line": 22,
+            "code_snippet": "Path real = resolved.toRealPath();"
+          },
+          {
+            "description": "startsWith(realBase) checks that the canonical resolved path is strictly inside the canonical BASE_DIR, blocking any remaining escape paths.",
+            "line": 24,
+            "code_snippet": "if (!real.startsWith(realBase)) {"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Key Java nuance: normalize() handles '..' logically but does not resolve symlinks. toRealPath() is required for physical canonicalization. Both are present here, making the guard effective."
+}

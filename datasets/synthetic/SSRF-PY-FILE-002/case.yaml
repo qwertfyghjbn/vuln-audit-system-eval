@@ -1,0 +1,33 @@
+id: "SSRF-PY-FILE-002"
+title: "SSRF guard via extracted URL validator (near-miss)"
+description: |
+  A Flask route that has the same surface pattern as SSRF-PY-FILE-001:
+  user input flows directly into requests.get(). However, a dedicated
+  helper _is_safe_url() enforces scheme allowlist, domain allowlist, and
+  IP-range blocking (private/loopback/link-local). allow_redirects=False
+  prevents redirect-based bypass. A system without cross-function tracing
+  may incorrectly flag requests.get() as a vulnerable sink.
+
+language: python
+vuln_type: ssrf
+label: near_miss
+input_mode: file
+difficulty: medium
+
+input:
+  primary_file: "app.py"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 0
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "requests.get", "domain-allowlist", "ip-blocklist", "cross-function-guard", "near-miss"]

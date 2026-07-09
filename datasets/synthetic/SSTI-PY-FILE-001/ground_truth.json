@@ -1,0 +1,55 @@
+{
+  "case_id": "SSTI-PY-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssti",
+      "severity": "high",
+      "location": {
+        "file": "app.py",
+        "function": "greet",
+        "line_start": 10,
+        "line_end": 13
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string from query parameter 'name'. No character filter or length limit is applied.",
+          "location": { "file": "app.py", "line": 10 },
+          "code_snippet": "name = request.args.get('name', 'world')"
+        },
+        "propagation": [
+          {
+            "description": "User input is concatenated directly into the template source string with the '+' operator, embedding it as raw template syntax rather than a context variable.",
+            "location": { "file": "app.py", "line": 11 },
+            "code_snippet": "template_str = \"Hello, \" + name + \"!\""
+          }
+        ],
+        "sink": {
+          "description": "Environment.from_string() parses and compiles the attacker-controlled string as a Jinja2 template. Jinja2 expressions within name (e.g. {{config}}) are evaluated on render().",
+          "location": { "file": "app.py", "line": 12 },
+          "code_snippet": "template = jinja_env.from_string(template_str)"
+        }
+      },
+      "missing_controls": [
+        "pass name as a context variable to a static template instead of concatenating",
+        "allowlist / regex filter on name before concatenation",
+        "use render_template_string with {{ name }} placeholder and name as context kwarg"
+      ],
+      "risk_reasoning": "User input is embedded into the template source string before parsing. An attacker supplying '{{config}}' or '{{''.__class__.__mro__[1].__subclasses__()}}' can enumerate internal objects and potentially achieve RCE.",
+      "remediation_hint": "Define a static template string with a {{ name }} placeholder and pass name as a context variable: jinja_env.from_string('Hello, {{ name }}!').render(name=name). Never concatenate user input into template source."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink where user input enters the template engine as raw template syntax.",
+    "minimum_match": {
+      "file": "app.py",
+      "line_range": [11, 13],
+      "function": "greet"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "The Environment is created without autoescape, which is the default. The root cause is string concatenation into template source, not the autoescape setting."
+}

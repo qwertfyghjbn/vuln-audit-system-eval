@@ -1,0 +1,62 @@
+{
+  "case_id": "SSRF-PY-REPO-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 ProxyService._is_safe_url()，它负责执行协议、域名与原始 IP 字面量校验。",
+    "minimum_match": {
+      "file": "src/services/proxy_service.py",
+      "function": "_is_safe_url",
+      "line_range": [
+        11,
+        31
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "ProxyService._is_safe_url() validates the URL against the modeled SSRF policy before get_url() is called. The guard enforces https-only scheme, domain allowlist, and raw-IP-literal range blocking. utils/http_utils.py:get_url() only ever receives pre-validated URLs from the service layer. allow_redirects=False in get_url() prevents redirect-based bypass.",
+    "false_positive_risk": "A system that inspects utils/http_utils.py in isolation will see requests.get(url) with an externally supplied argument and flag it as an unguarded SSRF sink. A system that traces the call from the route layer but fails to enter _is_safe_url() inside fetch_remote() will reach get_url() via the service and still incorrectly flag requests.get() at utils/http_utils.py line 6.",
+    "guard_locations": [
+      {
+        "file": "src/services/proxy_service.py",
+        "function": "_is_safe_url",
+        "line_start": 11,
+        "line_end": 31,
+        "controls": [
+          {
+            "description": "Scheme allowlist: only 'https' is permitted, blocking http://, file://, gopher://, dict:// and other dangerous schemes.",
+            "line": 17,
+            "code_snippet": "if parsed.scheme not in _ALLOWED_SCHEMES:"
+          },
+          {
+            "description": "Domain allowlist: only api.example.com and cdn.example.com are permitted, blocking arbitrary external or internal hostnames.",
+            "line": 21,
+            "code_snippet": "if hostname is None or hostname not in _ALLOWED_DOMAINS:"
+          },
+          {
+            "description": "IP-range blocklist: applies only to raw IP literals in the hostname field. If the hostname is a bare IP address (e.g. 127.0.0.1), private/loopback/link-local ranges are rejected, blocking 127.x, 10.x, 192.168.x, 169.254.x etc. Hostnames such as api.example.com are not DNS-resolved for IP checking — the domain allowlist is the control for those.",
+            "line": 26,
+            "code_snippet": "if addr.is_private or addr.is_loopback or addr.is_link_local:"
+          }
+        ]
+      },
+      {
+        "file": "src/utils/http_utils.py",
+        "function": "get_url",
+        "line_start": 4,
+        "line_end": 9,
+        "controls": [
+          {
+            "description": "allow_redirects=False prevents the HTTP client from following 3xx redirects that could redirect to an internal host after passing the initial URL validation in the service layer.",
+            "line": 6,
+            "code_snippet": "resp = requests.get(url, timeout=5, allow_redirects=False)"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Difficulty is 'hard': guard and sink are in different layers/files. get_url() is an intentionally low-level HTTP helper that trusts callers to validate URLs — the near-miss tests whether the system correctly tracks that only pre-validated URLs reach it. allow_redirects=False is in the utils layer as a defense-in-depth measure complementing the service-layer guard."
+}

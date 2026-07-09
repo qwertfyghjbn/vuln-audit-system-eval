@@ -1,0 +1,57 @@
+{
+  "case_id": "SSTI-JA-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 greet()，它固定模板源并把用户输入仅作为 model variable 传入。",
+    "minimum_match": {
+      "file": "GreetController.java",
+      "function": "greet",
+      "line_range": [
+        38,
+        40
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The Freemarker template source is the static constant GREETING_TEMPLATE. User input is passed only as a model variable via model.put(\"name\", safeName) and never concatenated into the template source. sanitizeName() provides additional defense-in-depth via a strict regex allowlist.",
+    "false_positive_risk": "A system that flags any call to template.process() where a user-derived variable is reachable in scope — without distinguishing template-source injection from model-variable injection — will produce a false positive at line 43.",
+    "guard_locations": [
+      {
+        "file": "GreetController.java",
+        "function": "sanitizeName",
+        "line_start": 22,
+        "line_end": 26,
+        "controls": [
+          {
+            "description": "Strict regex allowlist permits only alphanumeric characters, spaces, underscores, and hyphens up to 64 chars. Freemarker control characters $, {, }, #, < are excluded.",
+            "line": 25,
+            "code_snippet": "return ALLOWED_NAME.matcher(stripped).matches() ? stripped : null;"
+          }
+        ]
+      },
+      {
+        "file": "GreetController.java",
+        "function": "greet",
+        "line_start": 38,
+        "line_end": 40,
+        "controls": [
+          {
+            "description": "Template source is the static constant GREETING_TEMPLATE (line 19), not a user-derived string. User input enters only via model.put(), which is a safe data-binding path in Freemarker.",
+            "line": 38,
+            "code_snippet": "Template template = new Template(\"greeting\", new StringReader(GREETING_TEMPLATE), cfg);"
+          },
+          {
+            "description": "safeName is bound as a model variable, not concatenated into the template source. Model variable binding substitutes the value into ${name} at render time — this data-binding path never allows template directive injection regardless of Freemarker escaping configuration.",
+            "line": 40,
+            "code_snippet": "model.put(\"name\", safeName);"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Primary defense is the static template; regex allowlist is defense-in-depth. Key distinction from SSTI-JA-FILE-001: no string concatenation into template source anywhere in the method."
+}

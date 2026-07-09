@@ -1,0 +1,32 @@
+id: "SSRF-JA-FILE-001"
+title: "SSRF in Spring Boot URL-fetch endpoint"
+description: |
+  A Spring Boot REST controller accepts a full URL from @RequestParam and
+  passes it directly to RestTemplate.getForObject() with no scheme, host,
+  or IP-range validation. An attacker can supply internal addresses such as
+  http://169.254.169.254/ to probe the internal network or cloud metadata
+  services.
+
+language: java
+vuln_type: ssrf
+label: vulnerable
+input_mode: file
+difficulty: easy
+
+input:
+  primary_file: "FetchController.java"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "RestTemplate", "getForObject", "no-validation"]

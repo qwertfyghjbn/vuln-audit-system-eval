@@ -1,0 +1,35 @@
+id: "SSTI-PY-REPO-001"
+title: "SSTI via three-layer route→service→utils template injection (Python)"
+description: |
+  A Flask application with route/service/utils layering. The
+  /api/reports/preview endpoint reads a title from request.args in the route
+  layer, passes it through ReportService.render_preview() in the service
+  layer, and ultimately calls render_report_template() in the utils layer
+  which concatenates the title directly into a Jinja2 template source string
+  before calling Environment.from_string(). The taint flows across three files
+  before reaching the sink, requiring cross-file inter-procedural analysis.
+
+language: python
+vuln_type: ssti
+label: vulnerable
+input_mode: repo
+difficulty: medium
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src"
+  entry_points:
+    - "routes/report_routes.py"
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "jinja2", "multi-layer", "cross-file", "string-concatenation", "from_string", "route-service-utils"]

@@ -1,0 +1,61 @@
+{
+  "case_id": "SSRF-PY-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssrf",
+      "severity": "high",
+      "location": {
+        "file": "src/utils/http_utils.py",
+        "function": "get_url",
+        "line_start": 4,
+        "line_end": 7
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled URL string from query parameter 'url' received in the route layer. No scheme, host, or format check is applied.",
+          "location": { "file": "src/routes/proxy_routes.py", "line": 10 },
+          "code_snippet": "url = request.args.get('url', '')"
+        },
+        "propagation": [
+          {
+            "description": "url is forwarded unchanged to ProxyService.fetch_remote() — no validation at the route-to-service boundary.",
+            "location": { "file": "src/routes/proxy_routes.py", "line": 14 },
+            "code_snippet": "body = _service.fetch_remote(url)"
+          },
+          {
+            "description": "ProxyService.fetch_remote() passes url directly to get_url() without any sanitization — no validation at the service-to-utils boundary.",
+            "location": { "file": "src/services/proxy_service.py", "line": 6 },
+            "code_snippet": "return get_url(url)"
+          }
+        ],
+        "sink": {
+          "description": "requests.get() initiates an outbound HTTP request to the attacker-controlled URL. Internal addresses such as http://169.254.169.254/ are reachable.",
+          "location": { "file": "src/utils/http_utils.py", "line": 6 },
+          "code_snippet": "resp = requests.get(url, timeout=5)"
+        }
+      },
+      "missing_controls": [
+        "scheme allowlist (https only)",
+        "domain or hostname allowlist",
+        "private/loopback/link-local IP range blocklist",
+        "allow_redirects=False to prevent redirect-based bypass"
+      ],
+      "risk_reasoning": "The url value propagates through three layers (route → service → utils) without any validation. It enters requests.get() in the utils layer. An attacker can target cloud metadata endpoints (169.254.169.254), internal services, or arbitrary internet hosts.",
+      "remediation_hint": "Validate the URL in the service layer before delegating to utils: enforce https-only scheme, restrict hostnames to a domain allowlist, and block private/loopback/link-local IP ranges. Pass allow_redirects=False to requests.get()."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in utils/http_utils.py. Source identification in routes/proxy_routes.py is additional credit.",
+    "minimum_match": {
+      "file": "src/utils/http_utils.py",
+      "line_range": [5, 7],
+      "function": "get_url"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Cross-file SSRF taint tracing: route layer (source) → service layer (passthrough) → utils layer (sink). Each boundary is an opportunity for a system to lose track of the taint."
+}

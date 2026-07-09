@@ -1,0 +1,73 @@
+{
+  "case_id": "SSRF-JA-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssrf",
+      "severity": "high",
+      "location": {
+        "file": "src/main/java/com/example/demo/util/HttpUtil.java",
+        "function": "getUrl",
+        "line_start": 9,
+        "line_end": 12
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled URL string bound from the HTTP query parameter via @RequestParam in the controller layer. Spring performs no sanitization during binding.",
+          "location": {
+            "file": "src/main/java/com/example/demo/controller/ProxyController.java",
+            "line": 15
+          },
+          "code_snippet": "public ResponseEntity<String> fetch(@RequestParam String url) {"
+        },
+        "propagation": [
+          {
+            "description": "url is forwarded unchanged to ProxyService.fetchRemote() — no validation at the controller-to-service boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/controller/ProxyController.java",
+              "line": 19
+            },
+            "code_snippet": "String body = proxyService.fetchRemote(url);"
+          },
+          {
+            "description": "ProxyService.fetchRemote() passes url directly to HttpUtil.getUrl() without any sanitization — no validation at the service-to-util boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/service/ProxyService.java",
+              "line": 8
+            },
+            "code_snippet": "return HttpUtil.getUrl(url);"
+          }
+        ],
+        "sink": {
+          "description": "RestTemplate.getForObject() initiates an outbound HTTP request to the attacker-controlled URL. Internal addresses such as http://169.254.169.254/ are reachable.",
+          "location": {
+            "file": "src/main/java/com/example/demo/util/HttpUtil.java",
+            "line": 11
+          },
+          "code_snippet": "return REST_TEMPLATE.getForObject(url, String.class);"
+        }
+      },
+      "missing_controls": [
+        "scheme allowlist (https only)",
+        "domain or hostname allowlist",
+        "private/loopback/link-local IP range blocklist",
+        "redirect following disabled (setInstanceFollowRedirects(false))"
+      ],
+      "risk_reasoning": "The url value propagates through three layers (controller → service → util) without any validation. It enters RestTemplate.getForObject() in the util layer. An attacker can target cloud metadata endpoints (169.254.169.254), internal services, or arbitrary internet hosts.",
+      "remediation_hint": "Validate the URL in the service layer before delegating to util: parse with java.net.URL, enforce https-only scheme, restrict hostnames to a domain allowlist, and block private/loopback/link-local IP ranges. Configure RestTemplate with setInstanceFollowRedirects(false)."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in util/HttpUtil.java. Source identification in controller/ProxyController.java is additional credit.",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/util/HttpUtil.java",
+      "line_range": [10, 12],
+      "function": "getUrl"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Cross-file SSRF taint tracing: controller (source) → service (passthrough) → util (sink). Each layer boundary is an opportunity for a system to lose track of the taint."
+}

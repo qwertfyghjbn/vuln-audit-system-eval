@@ -1,0 +1,62 @@
+{
+  "case_id": "SSRF-JA-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 isSafeUrl()，它负责执行协议、域名与地址范围校验。",
+    "minimum_match": {
+      "file": "FetchController.java",
+      "function": "isSafeUrl",
+      "line_range": [
+        23,
+        45
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The URL is validated by isSafeUrl() before RestTemplate.getForObject() is called. The guard enforces https-only scheme, domain allowlist, and IP-range blocking. A custom RestTemplate factory disables redirect following to prevent 3xx-based bypass.",
+    "false_positive_risk": "A system matching '@RequestParam → RestTemplate.getForObject()' without tracing into isSafeUrl() will incorrectly flag getForObject() at line 67 as a High-severity SSRF sink.",
+    "guard_locations": [
+      {
+        "file": "FetchController.java",
+        "function": "isSafeUrl",
+        "line_start": 23,
+        "line_end": 45,
+        "controls": [
+          {
+            "description": "Scheme allowlist: only 'https' is permitted, blocking http://, file://, gopher://, dict:// and other dangerous schemes.",
+            "line": 26,
+            "code_snippet": "if (!ALLOWED_SCHEMES.contains(parsed.getProtocol())) {"
+          },
+          {
+            "description": "Domain allowlist: only api.example.com and cdn.example.com are permitted, blocking arbitrary external or internal hostnames.",
+            "line": 30,
+            "code_snippet": "if (host == null || !ALLOWED_DOMAINS.contains(host)) {"
+          },
+          {
+            "description": "IP-range blocklist: if the hostname resolves to an IP address, loopback (127.x), site-local (10.x, 192.168.x, 172.16-31.x), and link-local (169.254.x) ranges are rejected.",
+            "line": 35,
+            "code_snippet": "if (addr.isLoopbackAddress() || addr.isSiteLocalAddress() || addr.isLinkLocalAddress()) {"
+          }
+        ]
+      },
+      {
+        "file": "FetchController.java",
+        "function": "buildNoRedirectTemplate",
+        "line_start": 47,
+        "line_end": 57,
+        "controls": [
+          {
+            "description": "setInstanceFollowRedirects(false) prevents the HTTP client from following 3xx redirects that could redirect to an internal host after passing the initial URL validation.",
+            "line": 53,
+            "code_snippet": "conn.setInstanceFollowRedirects(false);"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "DNS rebinding is a theoretical residual risk not modeled here. For static analysis evaluation this case is labeled near_miss/safe."
+}

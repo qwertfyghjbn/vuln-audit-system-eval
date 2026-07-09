@@ -1,0 +1,57 @@
+{
+  "case_id": "SSTI-PY-REPO-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 render_report_template()，它固定模板源并把用户输入仅作为 context variable 传入。",
+    "minimum_match": {
+      "file": "src/utils/template_utils.py",
+      "function": "render_report_template",
+      "line_range": [
+        4,
+        9
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The Jinja2 template source is the static constant _REPORT_TEMPLATE. User input is passed only as a context variable via template.render(title=title) in the utils layer, never concatenated into the template source. _validate_title() in the service layer provides additional defense-in-depth via a strict regex allowlist.",
+    "false_positive_risk": "A system that traces request.args['title'] → render_report_template(safe_title) → _env.from_string(...) and sees user-derived 'title' reachable near from_string() — without checking whether 'title' entered the template *source* or only the render *context* — will incorrectly flag from_string() at utils/template_utils.py line 8 as a High-severity SSTI sink. A second trigger: a system that does not enter _validate_title() in the service layer will not recognize the regex guard.",
+    "guard_locations": [
+      {
+        "file": "src/services/report_service.py",
+        "function": "_validate_title",
+        "line_start": 9,
+        "line_end": 13,
+        "controls": [
+          {
+            "description": "Strict regex allowlist permits only alphanumeric characters and a limited set of punctuation up to 128 chars. Jinja2 control characters {{ }} % # are excluded.",
+            "line": 11,
+            "code_snippet": "if _ALLOWED_TITLE.fullmatch(stripped):"
+          }
+        ]
+      },
+      {
+        "file": "src/utils/template_utils.py",
+        "function": "render_report_template",
+        "line_start": 4,
+        "line_end": 9,
+        "controls": [
+          {
+            "description": "Template source is the module-level constant _REPORT_TEMPLATE. It is defined at import time and never modified. User input does not reach the template source argument of from_string() — the security guarantee comes from this source-vs-context separation, not from any escaping property of the {{ title }} syntax.",
+            "line": 4,
+            "code_snippet": "_REPORT_TEMPLATE = \"<h1>{{ title }}</h1><p>Report Preview</p>\""
+          },
+          {
+            "description": "User input is passed as a context variable kwarg to render(), not concatenated into the template source. Jinja2 treats {{ title }} as a value interpolation, not as a template code injection point.",
+            "line": 9,
+            "code_snippet": "return template.render(title=title)"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Difficulty is 'hard': the guard is split across two layers/files. Primary defense is the static template in utils (source-vs-context distinction). Regex in service is defense-in-depth. A system must trace all three layers and understand that from_string(_REPORT_TEMPLATE) uses only a compile-time constant — user data never reaches the template source argument."
+}

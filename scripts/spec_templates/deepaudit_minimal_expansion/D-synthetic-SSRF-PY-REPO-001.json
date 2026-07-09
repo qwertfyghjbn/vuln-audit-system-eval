@@ -1,0 +1,16 @@
+{
+  "experiment_id": "D-synthetic-SSRF-PY-REPO-001",
+  "case_id": "SSRF-PY-REPO-001",
+  "case_dir": "datasets/synthetic/SSRF-PY-REPO-001",
+  "input_path": "src",
+  "language": "python",
+  "target_vulnerability": "ssrf",
+  "shape": "D",
+  "layer": "synthetic",
+  "run_class": "baseline-like",
+  "description": "最小扩样：完整 synthetic SSRF Python repo，无 target_files",
+  "constraint_summary": "完整 synthetic repo；无 target_files；Python；非 PT",
+  "max_iterations": 8,
+  "timeout_seconds": 900,
+  "poll_limit_seconds": 600
+}

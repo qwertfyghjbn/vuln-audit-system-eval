@@ -1,0 +1,56 @@
+{
+  "case_id": "SSRF-JA-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssrf",
+      "severity": "high",
+      "location": {
+        "file": "FetchController.java",
+        "function": "fetchUrl",
+        "line_start": 14,
+        "line_end": 18
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled URL string bound directly from the HTTP query parameter via @RequestParam. Spring performs no sanitization during binding.",
+          "location": { "file": "FetchController.java", "line": 14 },
+          "code_snippet": "public String fetchUrl(@RequestParam String url) {"
+        },
+        "propagation": [
+          {
+            "description": "The only check is an isEmpty() guard that rejects blank strings. No scheme, host, or IP-range validation is applied; the url value reaches the HTTP client unchanged.",
+            "location": { "file": "FetchController.java", "line": 15 },
+            "code_snippet": "if (url == null || url.isEmpty()) {"
+          }
+        ],
+        "sink": {
+          "description": "RestTemplate.getForObject() initiates an outbound HTTP request to the attacker-controlled URL. Internal addresses such as http://169.254.169.254/latest/meta-data/ are reachable.",
+          "location": { "file": "FetchController.java", "line": 18 },
+          "code_snippet": "return restTemplate.getForObject(url, String.class);"
+        }
+      },
+      "missing_controls": [
+        "scheme allowlist (https only)",
+        "domain or hostname allowlist",
+        "private/loopback/link-local IP range blocklist",
+        "redirect following disabled (setInstanceFollowRedirects(false))"
+      ],
+      "risk_reasoning": "The url parameter flows from the HTTP request directly into RestTemplate.getForObject() with no validation. An attacker can target internal services, cloud metadata endpoints (169.254.169.254), or arbitrary internet hosts.",
+      "remediation_hint": "Parse the URL with java.net.URL, enforce an https-only scheme allowlist, restrict hostnames to a known domain allowlist, and block private/loopback/link-local IP ranges. Configure RestTemplate with setInstanceFollowRedirects(false)."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink where the unsanitized URL enters RestTemplate.getForObject().",
+    "minimum_match": {
+      "file": "FetchController.java",
+      "line_range": [17, 19],
+      "function": "fetchUrl"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": ""
+}

@@ -1,0 +1,64 @@
+{
+  "case_id": "SSTI-PY-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssti",
+      "severity": "high",
+      "location": {
+        "file": "src/utils/template_utils.py",
+        "function": "render_report_template",
+        "line_start": 6,
+        "line_end": 9
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string from query parameter 'title' received in the route layer. No character filter or length limit is applied.",
+          "location": { "file": "src/routes/report_routes.py", "line": 10 },
+          "code_snippet": "title = request.args.get('title', '')"
+        },
+        "propagation": [
+          {
+            "description": "title is forwarded unchanged to ReportService.render_preview() — no validation at the route-to-service boundary.",
+            "location": { "file": "src/routes/report_routes.py", "line": 14 },
+            "code_snippet": "html = _service.render_preview(title)"
+          },
+          {
+            "description": "ReportService.render_preview() passes title directly to render_report_template() without any sanitization — no validation at the service-to-utils boundary.",
+            "location": { "file": "src/services/report_service.py", "line": 6 },
+            "code_snippet": "return render_report_template(title)"
+          },
+          {
+            "description": "title is concatenated with the '+' operator directly into the HTML template source string, embedding user input as raw Jinja2 template syntax.",
+            "location": { "file": "src/utils/template_utils.py", "line": 7 },
+            "code_snippet": "template_str = \"<h1>\" + title + \"</h1><p>Report Preview</p>\""
+          }
+        ],
+        "sink": {
+          "description": "Environment.from_string() parses and compiles the attacker-controlled string as a Jinja2 template. Any Jinja2 expressions embedded in title (e.g. {{config}}) are evaluated on render().",
+          "location": { "file": "src/utils/template_utils.py", "line": 8 },
+          "code_snippet": "template = _env.from_string(template_str)"
+        }
+      },
+      "missing_controls": [
+        "use a static template with {{ title }} placeholder and pass title as a context variable to render() — never concatenate user input into the template source string",
+        "allowlist / regex filter stripping Jinja2 control characters ({{ }} % #) before concatenation as defense-in-depth"
+      ],
+      "risk_reasoning": "The title value propagates through three layers (route → service → utils) without any validation. It is concatenated into the Jinja2 template source string in the utils layer. An attacker supplying '{{config}}' or '{{''.__class__.__mro__[1].__subclasses__()}}' can evaluate arbitrary expressions.",
+      "remediation_hint": "Define a static template '<h1>{{ title }}</h1><p>Report Preview</p>' and pass title as a context variable: _env.from_string(STATIC_TEMPLATE).render(title=title). Never concatenate user input into the template source string."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in utils/template_utils.py where user input is concatenated into the template source and passed to from_string(). Source identification in routes/report_routes.py is additional credit.",
+    "minimum_match": {
+      "file": "src/utils/template_utils.py",
+      "line_range": [7, 9],
+      "function": "render_report_template"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "This case tests cross-file SSTI taint tracing: route layer (source) → service layer (passthrough) → utils layer (concat into template source + from_string sink). The wrapping in HTML tags makes the concat less obvious than the FILE-mode case."
+}

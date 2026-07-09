@@ -1,0 +1,55 @@
+{
+  "case_id": "PT-JA-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "path_traversal",
+      "severity": "high",
+      "location": {
+        "file": "FileController.java",
+        "function": "downloadFile",
+        "line_start": 18,
+        "line_end": 24
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string injected via @RequestParam 'filename'. Spring binds the raw query parameter value without any sanitization.",
+          "location": { "file": "FileController.java", "line": 18 },
+          "code_snippet": "public byte[] downloadFile(@RequestParam String filename) throws IOException {"
+        },
+        "propagation": [
+          {
+            "description": "Paths.get(BASE_DIR, filename) appends the user-supplied string to the base directory. Unlike Path.resolve(), Paths.get() does not normalize '..' components; they are preserved literally in the resulting path.",
+            "location": { "file": "FileController.java", "line": 23 },
+            "code_snippet": "Path filePath = Paths.get(BASE_DIR, filename);"
+          }
+        ],
+        "sink": {
+          "description": "Files.readAllBytes() reads the file at the unvalidated path. An attacker can supply '../../etc/passwd' to read arbitrary files outside BASE_DIR.",
+          "location": { "file": "FileController.java", "line": 24 },
+          "code_snippet": "return Files.readAllBytes(filePath);"
+        }
+      },
+      "missing_controls": [
+        "Path.normalize() to collapse '..' segments",
+        "Path.toRealPath() to resolve symlinks",
+        "startsWith(BASE_DIR) prefix check after normalization"
+      ],
+      "risk_reasoning": "The filename parameter flows directly from the HTTP request into Paths.get() and then Files.readAllBytes() without normalization or prefix validation. '..' traversal sequences are not stripped, enabling arbitrary file read.",
+      "remediation_hint": "Replace the raw path construction with: Path resolved = BASE_DIR.resolve(filename).normalize(); then assert resolved.toRealPath().startsWith(BASE_DIR.toRealPath()) before reading."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink region where the unnormalized path enters Files.readAllBytes().",
+    "minimum_match": {
+      "file": "FileController.java",
+      "line_range": [23, 25],
+      "function": "downloadFile"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Paths.get(base, filename) differs from Path.resolve(filename): both preserve '..' but the distinction from Python's os.path.join is worth noting — Java's Paths.get with multiple components does not normalize."
+}

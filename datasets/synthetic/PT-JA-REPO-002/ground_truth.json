@@ -1,0 +1,67 @@
+{
+  "case_id": "PT-JA-REPO-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 FileService.resolveSafePath()，它负责把路径解析到 canonical Path 并做目录边界校验。",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/service/FileService.java",
+      "function": "resolveSafePath",
+      "line_range": [
+        14,
+        25
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "FileService.resolveSafePath() fully validates and canonicalizes the filename before FileUtil.readFile() is called. FileUtil.readFile() only ever receives a pre-validated canonical Path from the service layer.",
+    "false_positive_risk": "A system that inspects util/FileUtil.java in isolation will see Files.readAllBytes(path) with an externally supplied Path argument and flag it as an unguarded sink. A system that traces the call from the controller but fails to enter resolveSafePath() will reach FileUtil.readFile() via getFileContent() and still incorrectly flag Files.readAllBytes() at line 11.",
+    "guard_locations": [
+      {
+        "file": "src/main/java/com/example/demo/service/FileService.java",
+        "function": "resolveSafePath",
+        "line_start": 14,
+        "line_end": 25,
+        "controls": [
+          {
+            "description": "BASE_DIR.resolve(filename).normalize() appends the user input and immediately collapses any '..' components, removing traversal sequences from the logical path.",
+            "line": 15,
+            "code_snippet": "Path resolved = BASE_DIR.resolve(filename).normalize();"
+          },
+          {
+            "description": "Pre-symlink prefix check: after normalization, reject immediately if the resolved path does not start with BASE_DIR. This fast-path avoids calling toRealPath() on obviously out-of-bounds paths.",
+            "line": 16,
+            "code_snippet": "if (resolved.isAbsolute() && !resolved.startsWith(BASE_DIR)) {"
+          },
+          {
+            "description": "toRealPath() resolves all symbolic links and returns the canonical absolute path, preventing symlink-based escapes that normalize() alone would not catch.",
+            "line": 19,
+            "code_snippet": "Path real = resolved.toRealPath();"
+          },
+          {
+            "description": "Post-symlink prefix check: startsWith(realBase) verifies the canonical path is inside or equal to the canonical BASE_DIR, blocking any remaining symlink escape paths. Reading BASE_DIR itself would fail at the I/O level.",
+            "line": 21,
+            "code_snippet": "if (!real.startsWith(realBase)) {"
+          }
+        ]
+      },
+      {
+        "file": "src/main/java/com/example/demo/service/FileService.java",
+        "function": "getFileContent",
+        "line_start": 27,
+        "line_end": 35,
+        "controls": [
+          {
+            "description": "Both SecurityException and IOException from resolveSafePath() are caught and return null, preventing any invalid path from reaching FileUtil.readFile().",
+            "line": 31,
+            "code_snippet": "} catch (SecurityException | IOException e) {\n            return null;\n        }"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Difficulty is 'hard' because guard and sink are in different layers/files. FileUtil.readFile() accepts a Path (not String) — the type change at the service→util boundary is a signal that the path has been pre-validated, but a system must still trace the data flow to confirm. The near-miss tests isolated-file analysis failure AND incomplete inter-procedural tracing failure."
+}

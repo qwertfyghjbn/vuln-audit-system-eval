@@ -1,0 +1,34 @@
+id: "PT-JA-FILE-002"
+title: "Path traversal guard via resolveSafePath helper (near-miss)"
+description: |
+  A Spring Boot REST controller with the same surface pattern as PT-JA-FILE-001:
+  a @RequestParam filename is resolved via Paths.get and read with
+  Files.readAllBytes. However, a private helper resolveSafePath() applies
+  normalize(), toRealPath() for symlink resolution, and a strict startsWith()
+  prefix check before returning the path. A system that does not trace into
+  resolveSafePath() will incorrectly flag Files.readAllBytes() as a
+  vulnerable sink.
+
+language: java
+vuln_type: path_traversal
+label: near_miss
+input_mode: file
+difficulty: medium
+
+input:
+  primary_file: "FileController.java"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 0
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "Path.normalize", "toRealPath", "startsWith-check", "cross-function-guard", "near-miss"]

@@ -1,0 +1,56 @@
+{
+  "case_id": "SSRF-PY-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssrf",
+      "severity": "high",
+      "location": {
+        "file": "app.py",
+        "function": "fetch_url",
+        "line_start": 9,
+        "line_end": 14
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled URL string read from query parameter 'url'. No scheme, host, or format check is applied.",
+          "location": { "file": "app.py", "line": 9 },
+          "code_snippet": "url = request.args.get('url', '')"
+        },
+        "propagation": [
+          {
+            "description": "The url value passes only an empty-string check and is forwarded unchanged to the HTTP client.",
+            "location": { "file": "app.py", "line": 10 },
+            "code_snippet": "if not url:"
+          }
+        ],
+        "sink": {
+          "description": "requests.get() initiates an outbound HTTP request to the attacker-controlled URL. Internal addresses such as http://169.254.169.254/ are reachable.",
+          "location": { "file": "app.py", "line": 14 },
+          "code_snippet": "resp = requests.get(url, timeout=5)"
+        }
+      },
+      "missing_controls": [
+        "scheme allowlist (e.g. https only)",
+        "domain or IP allowlist",
+        "private/loopback/link-local IP range blocklist",
+        "allow_redirects=False to prevent redirect-based bypass"
+      ],
+      "risk_reasoning": "The URL parameter flows directly into requests.get() with no validation. An attacker can target cloud metadata endpoints (169.254.169.254), internal services, or arbitrary internet hosts.",
+      "remediation_hint": "Validate the parsed URL: enforce an https-only scheme allowlist, restrict hostnames to a known domain allowlist, and block private/loopback/link-local IP ranges. Set allow_redirects=False."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink where the unsanitized URL enters requests.get().",
+    "minimum_match": {
+      "file": "app.py",
+      "line_range": [13, 15],
+      "function": "fetch_url"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": ""
+}

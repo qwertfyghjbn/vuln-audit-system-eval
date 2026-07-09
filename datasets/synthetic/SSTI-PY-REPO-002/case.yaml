@@ -1,0 +1,37 @@
+id: "SSTI-PY-REPO-002"
+title: "SSTI prevented by static template in utils + allowlist in service (near-miss)"
+description: |
+  A Flask application with the same route/service/utils structure as
+  SSTI-PY-REPO-001. The route layer is nearly identical. However, the service
+  layer validates the title via a regex allowlist in _validate_title() before
+  passing it to utils, and the utils layer uses a static template constant
+  _REPORT_TEMPLATE with a {{ title }} placeholder — user input is passed only
+  as a context variable to render(), never concatenated into the template
+  source. A system that flags from_string() due to user-data reachability
+  without tracing the source-vs-context distinction will produce a false
+  positive.
+
+language: python
+vuln_type: ssti
+label: near_miss
+input_mode: repo
+difficulty: hard
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src"
+  entry_points:
+    - "routes/report_routes.py"
+
+expected_finding_count: 0
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "jinja2", "multi-layer", "cross-file", "static-template", "context-variable", "allowlist-regex", "near-miss"]

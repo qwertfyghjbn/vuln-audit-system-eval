@@ -1,0 +1,62 @@
+{
+  "case_id": "SSRF-JA-REPO-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 ProxyService.isSafeUrl()，它负责执行协议、域名与解析后地址范围校验。",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/service/ProxyService.java",
+      "function": "isSafeUrl",
+      "line_range": [
+        16,
+        39
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "ProxyService.isSafeUrl() validates the URL against the modeled SSRF policy before HttpUtil.getUrl() is called. The guard enforces https-only scheme, domain allowlist, and IP-range checking on allowlisted hosts. HttpUtil.getUrl() only ever receives pre-validated URLs from the service layer. The RestTemplate in HttpUtil is configured with setInstanceFollowRedirects(false) as defense-in-depth.",
+    "false_positive_risk": "A system that inspects util/HttpUtil.java in isolation will see REST_TEMPLATE.getForObject(url, ...) with an externally supplied String argument and flag it as an unguarded SSRF sink. A system that traces the call from the controller but fails to enter isSafeUrl() inside fetchRemote() will reach HttpUtil.getUrl() via the service and still incorrectly flag getForObject() at util/HttpUtil.java line 26.",
+    "guard_locations": [
+      {
+        "file": "src/main/java/com/example/demo/service/ProxyService.java",
+        "function": "isSafeUrl",
+        "line_start": 16,
+        "line_end": 39,
+        "controls": [
+          {
+            "description": "Scheme allowlist: only 'https' is permitted, blocking http://, file://, gopher://, dict:// and other dangerous schemes.",
+            "line": 19,
+            "code_snippet": "if (!ALLOWED_SCHEMES.contains(parsed.getProtocol())) {"
+          },
+          {
+            "description": "Domain allowlist: only api.example.com and cdn.example.com are permitted, blocking arbitrary external or internal hostnames.",
+            "line": 23,
+            "code_snippet": "if (host == null || !ALLOWED_DOMAINS.contains(host)) {"
+          },
+          {
+            "description": "IP-range defense-in-depth: after the domain allowlist passes, InetAddress.getByName() resolves the allowlisted hostname and rejects loopback, site-local, and link-local results (127.x, 10.x, 192.168.x, 169.254.x etc.). DNS resolution failure is silently ignored and treated as passing — DNS rebinding and resolution failures are not modeled as security boundaries here.",
+            "line": 28,
+            "code_snippet": "if (addr.isLoopbackAddress() || addr.isSiteLocalAddress()\n                        || addr.isLinkLocalAddress()) {"
+          }
+        ]
+      },
+      {
+        "file": "src/main/java/com/example/demo/util/HttpUtil.java",
+        "function": "static initializer",
+        "line_start": 12,
+        "line_end": 22,
+        "controls": [
+          {
+            "description": "setInstanceFollowRedirects(false) prevents the HTTP client from following 3xx redirects that could redirect to an internal host after passing the initial URL validation in the service layer.",
+            "line": 18,
+            "code_snippet": "conn.setInstanceFollowRedirects(false);"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "Difficulty is 'hard': guard and sink are in different layers/files. HttpUtil is an intentionally low-level HTTP helper that trusts callers to validate URLs. setInstanceFollowRedirects(false) is in the util layer as defense-in-depth — testing whether the system recognises cross-layer cooperative defense."
+}

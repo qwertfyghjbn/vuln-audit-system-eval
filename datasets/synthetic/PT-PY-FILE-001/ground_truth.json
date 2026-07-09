@@ -1,0 +1,55 @@
+{
+  "case_id": "PT-PY-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "path_traversal",
+      "severity": "high",
+      "location": {
+        "file": "app.py",
+        "function": "download_file",
+        "line_start": 10,
+        "line_end": 17
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string from query parameter 'filename'. No type check, length limit, or character filter is applied.",
+          "location": { "file": "app.py", "line": 10 },
+          "code_snippet": "filename = request.args.get('filename', '')"
+        },
+        "propagation": [
+          {
+            "description": "filename is passed directly to os.path.join(). When filename starts with '/' it overrides BASE_DIR entirely; '../' sequences traverse upward.",
+            "location": { "file": "app.py", "line": 14 },
+            "code_snippet": "file_path = os.path.join(BASE_DIR, filename)"
+          }
+        ],
+        "sink": {
+          "description": "open() reads the resolved path without any realpath normalization or prefix check. Arbitrary file read is reachable.",
+          "location": { "file": "app.py", "line": 17 },
+          "code_snippet": "with open(file_path, 'rb') as f:"
+        }
+      },
+      "missing_controls": [
+        "os.path.realpath() to canonicalize symlinks and '..' components",
+        "prefix restriction: assert resolved path starts with BASE_DIR + os.sep",
+        "allowlist of permitted filenames or extensions"
+      ],
+      "risk_reasoning": "The filename value flows from request.args directly into os.path.join and then open() with no sanitization. An attacker can supply '../../etc/passwd' to read arbitrary files accessible to the process.",
+      "remediation_hint": "Resolve the joined path with os.path.realpath() and assert the result starts with os.path.realpath(BASE_DIR) + os.sep before calling open()."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink region where the unsanitized path enters open().",
+    "minimum_match": {
+      "file": "app.py",
+      "line_range": [14, 18],
+      "function": "download_file"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": ""
+}

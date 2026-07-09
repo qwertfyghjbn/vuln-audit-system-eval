@@ -1,0 +1,32 @@
+id: "SSTI-PY-FILE-001"
+title: "SSTI via string concatenation into Jinja2 from_string"
+description: |
+  A Flask route concatenates a user-supplied name directly into a Jinja2
+  template string and calls Environment.from_string() on the result.
+  An attacker can inject Jinja2 expressions (e.g. {{7*7}}) that are
+  evaluated by the engine, enabling arbitrary object traversal and
+  potential remote code execution.
+
+language: python
+vuln_type: ssti
+label: vulnerable
+input_mode: file
+difficulty: easy
+
+input:
+  primary_file: "app.py"
+  context_files: []
+  repo_root: null
+  entry_points: []
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["flask", "jinja2", "from_string", "string-concatenation", "no-escaping"]

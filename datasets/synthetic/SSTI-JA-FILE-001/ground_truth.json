@@ -1,0 +1,55 @@
+{
+  "case_id": "SSTI-JA-FILE-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "ssti",
+      "severity": "high",
+      "location": {
+        "file": "GreetController.java",
+        "function": "greet",
+        "line_start": 17,
+        "line_end": 25
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string bound from the HTTP query parameter via @RequestParam. No character filter or length limit is applied.",
+          "location": { "file": "GreetController.java", "line": 17 },
+          "code_snippet": "public String greet(@RequestParam(defaultValue = \"world\") String name) throws Exception {"
+        },
+        "propagation": [
+          {
+            "description": "The name value is concatenated with the '+' operator directly into the template source string. User-supplied FreeMarker syntax (e.g. ${7*7}, <#assign>) becomes part of the template to be parsed.",
+            "location": { "file": "GreetController.java", "line": 21 },
+            "code_snippet": "String templateStr = \"Hello, \" + name + \"!\";"
+          }
+        ],
+        "sink": {
+          "description": "new Template(..., new StringReader(templateStr), cfg) parses the attacker-controlled string as a Freemarker template. Any FreeMarker expressions embedded in name are compiled and subsequently evaluated by template.process().",
+          "location": { "file": "GreetController.java", "line": 22 },
+          "code_snippet": "Template template = new Template(\"greeting\", new StringReader(templateStr), cfg);"
+        }
+      },
+      "missing_controls": [
+        "use a static template constant with ${name} placeholder",
+        "pass name as a model variable via template.process(model, out), never concatenate into source",
+        "allowlist / regex filter on name if concatenation is unavoidable"
+      ],
+      "risk_reasoning": "User input is embedded into the Freemarker template source string before parsing. An attacker supplying '${7*7}' or FreeMarker directives can evaluate arbitrary expressions and potentially achieve RCE via freemarker.template.utility.Execute.",
+      "remediation_hint": "Define a static template constant 'Hello, ${name}!' and pass name as a model variable: template.process(Map.of(\"name\", name), out). Never concatenate user input into the template source string."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the propagation point where user input is concatenated into the template source, and the sink where it enters the Freemarker parser.",
+    "minimum_match": {
+      "file": "GreetController.java",
+      "line_range": [21, 23],
+      "function": "greet"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "The Template constructor parses the template source; template.process() evaluates it. The root vulnerability is at the constructor (line 22). Both lines are within the recall_anchor range."
+}

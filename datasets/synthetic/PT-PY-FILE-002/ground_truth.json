@@ -1,0 +1,54 @@
+{
+  "case_id": "PT-PY-FILE-002",
+  "label": "near_miss",
+  "expected_findings": [],
+  "case_target": {
+    "description": "当前 case 的主控制对象是 _resolve_safe_path()，它负责规范化用户路径并限制在基目录内。",
+    "minimum_match": {
+      "file": "app.py",
+      "function": "_resolve_safe_path",
+      "line_range": [
+        8,
+        18
+      ]
+    }
+  },
+  "should_not_report": {
+    "reason": "The path is fully validated by _resolve_safe_path() before open() is called. normpath normalizes separators, isabs() rejects absolute paths, and realpath() + prefix check is the true security boundary that resolves symlinks and all remaining '..' sequences.",
+    "false_positive_risk": "A system that matches the pattern 'request.args → os.path.join → open()' without tracing into _resolve_safe_path() will incorrectly flag open() at line 32 as a vulnerable sink.",
+    "guard_locations": [
+      {
+        "file": "app.py",
+        "function": "_resolve_safe_path",
+        "line_start": 8,
+        "line_end": 18,
+        "controls": [
+          {
+            "description": "os.path.normpath normalizes redundant separators and resolves non-leading '..' components (e.g. a/b/../c → a/c), but preserves leading '..' in relative paths (../../etc/passwd stays as-is). It is not the security boundary; its role is to reduce noise before realpath.",
+            "line": 10,
+            "code_snippet": "clean = os.path.normpath(user_input)"
+          },
+          {
+            "description": "Explicit rejection of absolute paths after normalization, blocking '/etc/passwd'-style inputs.",
+            "line": 11,
+            "code_snippet": "if os.path.isabs(clean):"
+          },
+          {
+            "description": "os.path.realpath resolves symlinks and any remaining '..' components to a canonical absolute path.",
+            "line": 14,
+            "code_snippet": "resolved = os.path.realpath(joined)"
+          },
+          {
+            "description": "Prefix check ensures the resolved path is strictly inside BASE_DIR. os.sep suffix prevents partial-directory name bypass (e.g. /var/www/files-evil).",
+            "line": 16,
+            "code_snippet": "if not resolved.startswith(real_base + os.sep):"
+          }
+        ]
+      }
+    ]
+  },
+  "recall_anchor": null,
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "The false-positive trigger is intentional: the surface pattern (request param → join → open) is identical to PT-PY-FILE-001. Correct behavior requires inter-procedural analysis of _resolve_safe_path."
+}

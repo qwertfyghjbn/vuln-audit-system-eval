@@ -1,0 +1,81 @@
+{
+  "case_id": "PT-JA-REPO-001",
+  "label": "vulnerable",
+  "expected_findings": [
+    {
+      "finding_id": "F001",
+      "vuln_type": "path_traversal",
+      "severity": "high",
+      "location": {
+        "file": "src/main/java/com/example/demo/util/FileUtil.java",
+        "function": "readFile",
+        "line_start": 12,
+        "line_end": 15
+      },
+      "evidence_chain": {
+        "source": {
+          "description": "User-controlled string bound from the HTTP query parameter via @RequestParam in the controller layer. Spring performs no sanitization during binding.",
+          "location": {
+            "file": "src/main/java/com/example/demo/controller/FileController.java",
+            "line": 15
+          },
+          "code_snippet": "public ResponseEntity<byte[]> download(@RequestParam String filename) {"
+        },
+        "propagation": [
+          {
+            "description": "filename is forwarded unchanged to FileService.getFileContent() — no validation at the controller-to-service boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/controller/FileController.java",
+              "line": 19
+            },
+            "code_snippet": "byte[] content = fileService.getFileContent(filename);"
+          },
+          {
+            "description": "FileService.getFileContent() passes filename directly to FileUtil.readFile() without any sanitization — no validation at the service-to-util boundary.",
+            "location": {
+              "file": "src/main/java/com/example/demo/service/FileService.java",
+              "line": 8
+            },
+            "code_snippet": "return FileUtil.readFile(filename);"
+          },
+          {
+            "description": "Paths.get(BASE_DIR, filename) appends the tainted string. '..' sequences are preserved literally and not normalized.",
+            "location": {
+              "file": "src/main/java/com/example/demo/util/FileUtil.java",
+              "line": 13
+            },
+            "code_snippet": "Path filePath = Paths.get(BASE_DIR, filename);"
+          }
+        ],
+        "sink": {
+          "description": "Files.readAllBytes() reads the file at the unvalidated path. An attacker can supply '../../etc/passwd' to read arbitrary files accessible to the process.",
+          "location": {
+            "file": "src/main/java/com/example/demo/util/FileUtil.java",
+            "line": 15
+          },
+          "code_snippet": "return Files.readAllBytes(filePath);"
+        }
+      },
+      "missing_controls": [
+        "Path.normalize() to collapse '..' segments",
+        "Path.toRealPath() to resolve symlinks",
+        "startsWith(BASE_DIR) prefix check after canonicalization",
+        "validation at service or util boundary before Paths.get()"
+      ],
+      "risk_reasoning": "The filename value propagates through three layers (controller → service → util) without any validation. It enters Paths.get() and then Files.readAllBytes() in the util layer. '..' traversal sequences are not stripped at any layer, enabling arbitrary file read.",
+      "remediation_hint": "In FileUtil.readFile(), replace Paths.get(BASE_DIR, filename) with BASE_DIR_PATH.resolve(filename).normalize(), then call toRealPath() and assert startsWith(BASE_DIR_PATH.toRealPath()) before reading."
+    }
+  ],
+  "should_not_report": null,
+  "recall_anchor": {
+    "description": "A correct system must identify the sink in util/FileUtil.java. Source identification in controller/FileController.java is additional credit.",
+    "minimum_match": {
+      "file": "src/main/java/com/example/demo/util/FileUtil.java",
+      "line_range": [13, 16],
+      "function": "readFile"
+    }
+  },
+  "annotator": "synthetic-v1",
+  "annotation_confidence": "high",
+  "notes": "This case tests cross-file inter-procedural taint tracing across Java package layers: controller (source) → service (passthrough) → util (sink). Each layer boundary is an opportunity for a system to lose track of the taint."
+}

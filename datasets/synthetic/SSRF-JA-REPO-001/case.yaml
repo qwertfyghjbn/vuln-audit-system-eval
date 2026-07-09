@@ -1,0 +1,35 @@
+id: "SSRF-JA-REPO-001"
+title: "SSRF via three-layer controller→service→util chain (Java)"
+description: |
+  A Spring Boot application with controller/service/util layering. The
+  /api/proxy/fetch endpoint reads a URL from @RequestParam in the controller
+  layer, passes it through ProxyService.fetchRemote() in the service layer,
+  and ultimately calls HttpUtil.getUrl() in the util layer which passes the
+  URL directly to RestTemplate.getForObject() without any scheme, host, or
+  IP-range validation. The taint flows across three files before reaching
+  the sink, requiring cross-file inter-procedural analysis.
+
+language: java
+vuln_type: ssrf
+label: vulnerable
+input_mode: repo
+difficulty: medium
+
+input:
+  primary_file: null
+  context_files: []
+  repo_root: "src/main/java"
+  entry_points:
+    - "com/example/demo/controller/ProxyController.java"
+
+expected_finding_count: 1
+recall_k: 5
+
+cve_id: null
+advisory_url: null
+affected_version: null
+patched_version: null
+
+synthetic: true
+created_at: "2026-05-01"
+tags: ["spring-boot", "RestTemplate", "getForObject", "multi-layer", "cross-file", "no-validation", "controller-service-util"]
