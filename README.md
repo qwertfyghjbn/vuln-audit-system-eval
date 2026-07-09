@@ -70,6 +70,8 @@
 - `static-tool constraint strength` 已足够被视为重要解释变量之一。
 - 但它不是唯一解释变量；不同 family 的恢复条件不同。
 - 更自由的工作流能恢复 target reasoning，但不自动等于稳定恢复 `fixed-side guard semantics`。
+- 当前实验支持：`IRIS-style static-gated workflow` 确实会限制 LLM 的语义发挥，但限制的主因不是简单的“工具权威压制 LLM”，而更像是“静态标签 / 路径表示 + 缺少目标链 framing / 差分 framing”。
+- 同时，`DeepAudit / 自由审计` 在某些单侧语义链 case 上确实表现出低信息条件下的架构优势，但在 `vulnerable/fixed pair` 上仍不天然具备稳定差分解释能力。
 
 一句话收口：
 
