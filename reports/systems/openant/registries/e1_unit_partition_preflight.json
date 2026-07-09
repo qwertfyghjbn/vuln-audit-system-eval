@@ -1,0 +1,18 @@
+{
+  "schema_version": "unit_partition_controlled_eval_report.v1",
+  "generated_at": "2026-06-30T01:43:04.806583+00:00",
+  "manifest_ref": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-30-e1/unit_partition_manifest.json",
+  "status": "valid",
+  "preflight": {
+    "status": "valid",
+    "summary": {
+      "case_count": 18,
+      "arm_count": 2,
+      "scan_report_count": 18,
+      "unit_catalog_count": 2,
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "diagnostics": []
+  }
+}

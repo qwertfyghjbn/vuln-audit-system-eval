@@ -1,0 +1,6 @@
+project_slug	cve_id	official_author	official_package	official_tag	join_mode	join_key_fields	result_files	notes
+perwendel__spark_CVE-2018-9159_2.7.1	CVE-2018-9159	perwendel	spark	2.7.1	exact_result_row_join	(CVE,Author,Package,Tag)	IRIS+GPT-4.csv; CodeQL.csv	exact match for selected shortlist
+perwendel__spark_CVE-2016-9177_2.5.1	CVE-2016-9177	perwendel	spark	2.5.1	exact_result_row_join	(CVE,Author,Package,Tag)	IRIS+GPT-4.csv; CodeQL.csv	exact match for selected shortlist
+vert-x3__vertx-web_CVE-2018-12542_3.5.3.CR1	CVE-2018-12542	vert-x3	vertx-web	3.5.3.CR1	exact_result_row_join	(CVE,Author,Package,Tag)	IRIS+GPT-4.csv; CodeQL.csv	exact match for selected shortlist
+jmrozanec__cron-utils_CVE-2021-41269_9.1.5	CVE-2021-41269	jmrozanec	cron-utils	9.1.5	exact_result_row_join	(CVE,Author,Package,Tag)	IRIS+GPT-4.csv; CodeQL.csv	exact match for selected shortlist
+rhuss__jolokia_CVE-2018-1000129_1.4.0	CVE-2018-1000129	rhuss	jolokia	1.4.0	exact_result_row_join	(CVE,Author,Package,Tag)	IRIS+GPT-4.csv; CodeQL.csv	exact match for selected shortlist

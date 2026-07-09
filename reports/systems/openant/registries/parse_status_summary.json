@@ -1,0 +1,153 @@
+{
+  "case_count": 18,
+  "success_count": 18,
+  "skip_tests_false_count": 18,
+  "python_language_count": 2,
+  "auto_language_count": 16,
+  "rows": [
+    {
+      "case_id": "PT-PY-FILE-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "PT-PY-FILE-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 3
+    },
+    {
+      "case_id": "SSRF-PY-FILE-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "SSRF-PY-FILE-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 3
+    },
+    {
+      "case_id": "SSTI-PY-FILE-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "SSTI-PY-FILE-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 3
+    },
+    {
+      "case_id": "PT-PY-REPO-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 3
+    },
+    {
+      "case_id": "PT-PY-REPO-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 3
+    },
+    {
+      "case_id": "SSRF-PY-REPO-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "SSRF-PY-REPO-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "SSTI-PY-REPO-001",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "SSTI-PY-REPO-002",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 2
+    },
+    {
+      "case_id": "PT-PY-REPO-CVE-2024-32982-VULN",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 767
+    },
+    {
+      "case_id": "PT-PY-REPO-CVE-2024-32982-FIXED",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 767
+    },
+    {
+      "case_id": "SSRF-PY-REPO-CVE-2025-2828-VULN",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 951
+    },
+    {
+      "case_id": "SSRF-PY-REPO-CVE-2025-2828-FIXED",
+      "status": "success",
+      "language": "auto",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 951
+    },
+    {
+      "case_id": "SSTI-PY-REPO-CVE-2024-45053-VULN",
+      "status": "success",
+      "language": "python",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 811
+    },
+    {
+      "case_id": "SSTI-PY-REPO-CVE-2024-45053-FIXED",
+      "status": "success",
+      "language": "python",
+      "processing_level": "reachable",
+      "skip_tests": false,
+      "total_units": 811
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+group_role	case_id	vuln_type	label	input_mode	query_id	compare_target	input_contract_status
+self-pt-vuln	PT-JA-REPO-CVE-2024-53677-VULN	path_traversal	vulnerable	repo	cwe-022wLLM	official-pt-differential	compile_recipe_present
+self-ssrf-vuln	SSRF-JA-REPO-CVE-2023-3432-VULN	ssrf	vulnerable	repo	cwe-918wLLM	official-control-or-differential-context	compile_recipe_present
+self-ssrf-fixed	SSRF-JA-REPO-CVE-2023-3432-FIXED	ssrf	near_miss	repo	cwe-918wLLM	self-ssrf-vuln	compile_recipe_present
+reserve-self-case	PT-JA-REPO-CVE-2024-53677-FIXED	path_traversal	near_miss	repo	cwe-022wLLM	self-pt-vuln	compile_recipe_missing

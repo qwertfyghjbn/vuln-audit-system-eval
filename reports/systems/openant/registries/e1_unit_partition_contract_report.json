@@ -1,0 +1,243 @@
+{
+  "schema_version": "unit_partition_controlled_eval_contract_report.v1",
+  "generated_at": "2026-06-30T01:42:41.217063+00:00",
+  "manifest_ref": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-30-e1/unit_partition_manifest.json",
+  "status": "valid",
+  "summary": {
+    "experiment_id": "unit-partition-2026-06-30-e1-candidate-only",
+    "phase": "partition_only",
+    "language": "python",
+    "case_count": 18,
+    "arm_count": 2,
+    "baseline_arm_id": "v3-native",
+    "treatment_arm_count": 1,
+    "strata_distribution": [
+      {
+        "key": "S1",
+        "count": 6
+      },
+      {
+        "key": "S2",
+        "count": 6
+      },
+      {
+        "key": "S3",
+        "count": 6
+      }
+    ],
+    "contract_fingerprint": "5627ca974ce995cd",
+    "warning_count": 0,
+    "error_count": 0
+  },
+  "shared_pipeline": {
+    "provider_name": "bandit",
+    "evidence_source_kind": "shared_tool_evidence_scan_report",
+    "vuln_type_mapping_mode": "shared_case_declared_vuln_type",
+    "candidate_input_source": "normalized_evidence_only",
+    "semantic_verification_mode": "disabled",
+    "emission_policy": "candidate_only",
+    "anchor_aligned_probe_policy": "disabled",
+    "max_anchor_aligned_probe_per_case": 0
+  },
+  "case_summaries": [
+    {
+      "case_id": "PT-PY-FILE-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "file",
+      "vuln_type": "path_traversal",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-FILE-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "PT-PY-FILE-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "file",
+      "vuln_type": "path_traversal",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-FILE-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-FILE-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "file",
+      "vuln_type": "ssrf",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-FILE-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-FILE-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "file",
+      "vuln_type": "ssrf",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-FILE-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-FILE-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "file",
+      "vuln_type": "ssti",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-FILE-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-FILE-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "file",
+      "vuln_type": "ssti",
+      "stratum": "S1",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-FILE-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "PT-PY-REPO-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "path_traversal",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-REPO-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "PT-PY-REPO-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "path_traversal",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-REPO-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-REPO-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "ssrf",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-REPO-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-REPO-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "ssrf",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-REPO-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-REPO-001",
+      "dataset_family": "synthetic",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "ssti",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-REPO-001/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-REPO-002",
+      "dataset_family": "synthetic",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "ssti",
+      "stratum": "S2",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-REPO-002/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "PT-PY-REPO-CVE-2024-32982-VULN",
+      "dataset_family": "real_world",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "path_traversal",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-REPO-CVE-2024-32982-VULN/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "PT-PY-REPO-CVE-2024-32982-FIXED",
+      "dataset_family": "real_world",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "path_traversal",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/PT-PY-REPO-CVE-2024-32982-FIXED/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-REPO-CVE-2025-2828-VULN",
+      "dataset_family": "real_world",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "ssrf",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-REPO-CVE-2025-2828-VULN/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSRF-PY-REPO-CVE-2025-2828-FIXED",
+      "dataset_family": "real_world",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "ssrf",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSRF-PY-REPO-CVE-2025-2828-FIXED/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-REPO-CVE-2024-45053-VULN",
+      "dataset_family": "real_world",
+      "label": "vulnerable",
+      "input_mode": "repo",
+      "vuln_type": "ssti",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-REPO-CVE-2024-45053-VULN/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    },
+    {
+      "case_id": "SSTI-PY-REPO-CVE-2024-45053-FIXED",
+      "dataset_family": "real_world",
+      "label": "near_miss",
+      "input_mode": "repo",
+      "vuln_type": "ssti",
+      "stratum": "S3",
+      "shared_scan_report_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_controlled_eval/2026-06-29-round2/shared_scan_reports/SSTI-PY-REPO-CVE-2024-45053-FIXED/tool_evidence_scan_report.json",
+      "anchor_aligned_probe_present": false
+    }
+  ],
+  "arm_summaries": [
+    {
+      "arm_id": "v3-native",
+      "role": "baseline",
+      "partition_source_kind": "native_partition",
+      "relation_mode": "none",
+      "unit_catalog_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_compare/2026-06-30-e1/normalized_units_v3.jsonl",
+      "relation_catalog_path": null
+    },
+    {
+      "arm_id": "openant-projected",
+      "role": "treatment",
+      "partition_source_kind": "projected_partition",
+      "relation_mode": "none",
+      "unit_catalog_path": "/home/lqs/llmv3-vuln-practice/artifacts/unit_partition_compare/2026-06-30-e1/normalized_units_openant.jsonl",
+      "relation_catalog_path": null
+    }
+  ],
+  "diagnostics": []
+}
